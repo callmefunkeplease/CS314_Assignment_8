@@ -56,7 +56,7 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
      * create an empty SortedSet
      */
     public SortedSet() {
-
+        System.out.println("Can you see this?");
     }
 
     /**
