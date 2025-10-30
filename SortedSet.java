@@ -67,6 +67,7 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
      */
     public E min() {
 
+        return null;
     }
 
     /**
