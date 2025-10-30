@@ -35,13 +35,17 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
 
     /*
      * DELETE THIS COMMENT WHEN FINISHED.
-     * RECALL: When merging two SortedSets (most likely in the union, difference, intersection, 
-     * and addAll methods) you are required to adapt the merge code from the slides on Faster sorting. 
-     * https://www.cs.utexas.edu/~scottm/cs314/handouts/slides/Topic17FastSorting.pdf Slide number 14. 
-     * You must deal with the internal ArrayList and uses primitive ints to track positions in the list. 
-     * Do not use iterators when merging. Failure to meet this requirement 
-     * may result in a 0 on the assignment. 
-     */	
+     * RECALL: When merging two SortedSets (most likely in the union, difference,
+     * intersection,
+     * and addAll methods) you are required to adapt the merge code from the slides
+     * on Faster sorting.
+     * https://www.cs.utexas.edu/~scottm/cs314/handouts/slides/Topic17FastSorting.
+     * pdf Slide number 14.
+     * You must deal with the internal ArrayList and uses primitive ints to track
+     * positions in the list.
+     * Do not use iterators when merging. Failure to meet this requirement
+     * may result in a 0 on the assignment.
+     */
 
     private ArrayList<E> myCon;
 
@@ -54,6 +58,7 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
 
     /**
      * Create a copy of other that is sorted.<br>
+     * 
      * @param other != null
      */
     public SortedSet(ISet<E> other) {
@@ -62,23 +67,25 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
 
     /**
      * Return the smallest element in this SortedSet.
-     * <br> pre: size() != 0
+     * <br>
+     * pre: size() != 0
+     * 
      * @return the smallest element in this SortedSet.
      */
     public E min() {
 
-        return null;
+        return null; // TODO MAKE this good
     }
 
     /**
      * Return the largest element in this SortedSet.
-     * <br> pre: size() != 0
+     * <br>
+     * pre: size() != 0
+     * 
      * @return the largest element in this SortedSet.
      */
     public E max() {
 
     }
-
-
 
 }
