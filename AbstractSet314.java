@@ -18,6 +18,8 @@
 
 import java.util.Iterator;
 
+import javax.print.attribute.standard.MediaSize.Other;
+
 /**
  * Students are to complete this class.
  * Students should implement as many methods
@@ -90,6 +92,7 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      *         false otherwise.
      */
     public boolean addAll(ISet<E> otherSet){
+        // TODO Add precondition checks
         int originalSize=size();
         for(E val:otherSet){
             add(val);
@@ -124,6 +127,7 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      * @return true if this set contains the specified item, false otherwise.
      */
     public boolean contains(E item) {
+        // TODO Add precondition checks
         for (E val : this) {
             if (val.equals(item)) {
                 return true;
@@ -143,13 +147,16 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      * <br>
      * pre: otherSet != null
      * 
-     * Efficiency:O(N^2)
+     * Efficiency:
+     * O(N^2) if otherSet is an unsorted Set 
+     * O(Nlog(N)) if otherSet is a sorted Set
      * 
      * @param otherSet != null
      * @return true if this set contains all of the elements in otherSet,
      *         false otherwise.
      */
     public boolean containsAll(ISet<E> otherSet) {
+        // TODO Add precondition checks
         for (E otherVal : otherSet) {
             if (!contains(otherVal)) {
                 return false;
@@ -199,7 +206,9 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      * @param other the object to compare to this set
      * @return true if other is a Set and has the same elements as this set
      */
-    public boolean equals(Object other);
+    public boolean equals(Object other){
+        if(other==null||other.getClass()!=)
+    }
 
     /**
      * create a new set that is the intersection of this set and otherSet.
@@ -216,8 +225,13 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      * @return a set that is the intersection of this set and otherSet
      */
     public ISet<E> intersection(ISet<E> otherSet){
-        ISet<E> returnSet=
-        for()
+        ISet<E> returnSet=union(otherSet);
+        for(E val:returnSet){
+            if(!(contains(val)&&otherSet.contains(val))){
+                returnSet.remove(val);
+            }
+        }
+        return returnSet;
     }
 
     /**
@@ -258,6 +272,8 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      * 
      * @param otherSet != null
      * @return a set that is the union of this set and otherSet
+     * 
+     * Note: Union is used in both difference and intersection. If we were to declare it abstractly, it would allow the client to not declare their own version of it, resulting in an infinite loop. 
      */
-    public ISet<E> union(ISet<E> otherSet);
+    public abstract ISet<E> union(ISet<E> otherSet);
 }
