@@ -32,4 +32,22 @@ public class UnsortedSet<E> extends AbstractSet314<E> {
 
     private ArrayList<E> myCon;
 
+	@Override
+	public boolean add(E item) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'add'");
+	}
+
+	@Override
+	public boolean remove(E item) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'remove'");
+	}
+
+	@Override
+	public ISet<E> union(ISet<E> otherSet) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'union'");
+	}
+
 }
