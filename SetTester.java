@@ -2,15 +2,16 @@
 /*
  * Student information for assignment:
  *
- * Number of slip days used:
- * Student 1 (Student whose turnin account is being used)
- *  UTEID:
- *  email address:
- *  Grader name:
+ * Number of slip days used: 0
  *
- * Student 2
+ *  Student 1 (Student whose Canvas account is being used)
+ *  UTEID: jof369
+ *  email address: jof369@eid.utexas.edu
+ *  TA name:Karnika Choudhury
+ *  
+ *  Student 2 
  *  UTEID:
- *  email address:
+ *  email address:   
  */
 
 import java.io.File;
