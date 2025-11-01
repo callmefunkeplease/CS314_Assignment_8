@@ -83,11 +83,19 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      * A union operation. Add all items of otherSet that
      * are not already present in this set to this set.
      * 
+     * Effeciency O(N^2)
+     * 
      * @param otherSet != null
      * @return true if this set changed as a result of this operation,
      *         false otherwise.
      */
-    public abstract boolean addAll(ISet<E> otherSet);
+    public boolean addAll(ISet<E> otherSet){
+        int originalSize=size();
+        for(E val:otherSet){
+            add(val);
+        }
+        return originalSize==size();
+    }
 
     /**
      * Make this set empty.
@@ -108,6 +116,7 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      * Determine if item is in this set.
      * <br>
      * pre: item != null
+     * 
      * Efficiency:O(N)
      * 
      * @param item element whose presence is being tested.
@@ -133,6 +142,8 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      * Determine if all of the elements of otherSet are in this set.
      * <br>
      * pre: otherSet != null
+     * 
+     * Efficiency:O(N^2)
      * 
      * @param otherSet != null
      * @return true if this set contains all of the elements in otherSet,
@@ -163,10 +174,20 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      * <br>
      * pre: otherSet != null
      * 
+     * Efficiency: O(N^2)
+     * 
      * @param otherSet != null
      * @return a set that is the difference of this set and otherSet
      */
-    public ISet<E> difference(ISet<E> otherSet);
+    public ISet<E> difference(ISet<E> otherSet) {
+        // TODO Add precondition checks
+        ISet<E> returnSet = union(otherSet);
+        // We want everything otherSet doesn't have
+        for (E unwantedVal : otherSet) {
+            returnSet.remove(unwantedVal);
+        }
+        return returnSet;
+    }
 
     /**
      * Determine if this set is equal to other.
@@ -194,7 +215,10 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      * @param otherSet != null
      * @return a set that is the intersection of this set and otherSet
      */
-    public ISet<E> intersection(ISet<E> otherSet);
+    public ISet<E> intersection(ISet<E> otherSet){
+        ISet<E> returnSet=
+        for()
+    }
 
     /**
      * Return an Iterator object for the elements of this set.
