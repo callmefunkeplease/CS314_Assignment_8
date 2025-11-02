@@ -68,18 +68,48 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
      * @param other != null
      */
     public SortedSet(ISet<E> other) {
+        myCon = new ArrayList<>();
         if (other instanceof SortedSet<E>) {
             for (E val : ((SortedSet<E>) other).myCon) {
                 myCon.add(val);
             }
         } else {
-            myCon = new ArrayList<>();
             for (E val : other) {
                 myCon.add(val);
             }
             if (myCon.size() > 1) {
                 quickSort(0, myCon.size() - 1);
             } // else{ I'm good. The empty/single val is sorted }
+        }
+    }
+
+    /*
+     * Very quick helper Constructor.
+     * 
+     * Efficiency: O(1)
+     * 
+     * Pre: sortedSetList is an arrayList that follows all the rules of a SortedSet.
+     * Post: Constructs a sortedSetList with the parameter as the container.
+     * 
+     * VERY IMPORTANT NOTE* DO NOT USE UNLESS YOU ALREADY SORTED AND FILTERED
+     * sortedSetList. THERE ARE NO PRECONDITION CHECKERS BECAUSE IT'S STUPID TO HAVE
+     * CHECKING THE PRECONDITIONS TAKE LONGER THAN RUNNING THE METHOD.
+     */
+    private SortedSet(ArrayList<E> sortedSetList) {
+        myCon = sortedSetList;
+    }
+
+    /*
+     * Private helper Constructor that makes a deep copy of a SortedSet
+     * 
+     * Efficiency: O(N)
+     * 
+     * TODO add pre and post con
+     */
+    private SortedSet(SortedSet<E> otherSet) {
+        myCon = new ArrayList<>();
+        for (E val : otherSet) {
+            myCon.add(val);
         }
     }
 
@@ -164,22 +194,6 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
             // both these numbers have lost once
             return Math.max(Math.min(x, y), z);
         }
-    }
-
-    /*
-     * Very quick helper Constructor.
-     * 
-     * Efficiency: O(1)
-     * 
-     * Pre: sortedSetList is an arrayList that follows all the rules of a SortedSet.
-     * Post: Constructs a sortedSetList with the parameter as the container.
-     * 
-     * VERY IMPORTANT NOTE* DO NOT USE UNLESS YOU ALREADY SORTED AND FILTERED
-     * sortedSetList. THERE ARE NO PRECONDITION CHECKERS BECAUSE IT'S STUPID TO HAVE
-     * CHECKING THE PRECONDITIONS TAKE LONGER THAN RUNNING THE METHOD.
-     */
-    private SortedSet(ArrayList<E> sortedSetList) {
-        myCon = sortedSetList;
     }
 
     /**
@@ -391,8 +405,8 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
             return true;
         }
         // O(Nlog(N)) if above was false
-        for (E val : otherSet) {
-            if (!contains(val)) {
+        for (E otherVal : otherSet) {
+            if (!contains(otherVal)) {
                 return false;
             }
         }
@@ -447,8 +461,10 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
             }
             return new SortedSet(newCon);
         } else {
-            // else sort the otherSet and run the method again.
-            return difference(new SortedSet<>(otherSet));
+            // If otherSet isn't a SortedSet, sort it
+            SortedSet<E> returnSet = new SortedSet<>(otherSet);
+            // then
+            return difference(returnSet);
         }
     }
 
