@@ -78,7 +78,7 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
                 myCon.add(val);
             }
             if (myCon.size() > 1) {
-                mergeSort();
+                quickSort(0, myCon.size() - 1);
             } // else{ I'm good. The empty/single val is sorted }
         }
     }
@@ -89,84 +89,82 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
      * using and know how to do mergeSort. I want to learn quickSort better
      * 
      * TODO add pre and post conditions
-     *
-     * private void quickSort(int low, int high) {
-     * // TODO check preconditions
-     * // Base case where virtual list is empty or has one element
-     * if (high - low < SIZE_WHEN_INSERTION_SORT_IS_FASTER_THAN_QUICK_SORT) {
-     * insertionSort(low, high);
-     * }
-     * int pivotPoint = medianOfThree(low, low + (high - low) / 2, high);
-     * E pivotVal = myCon.get(pivotPoint);
-     * swap(low, pivotPoint);
-     * int leftPoint = low + 1;
-     * int rightPoint = high;
-     * while (leftPoint <= rightPoint) {
-     * //swaps first because previous loop
-     * swap(leftPoint, rightPoint);
-     * 
-     * while (myCon.get(leftPoint).compareTo(pivotVal) < 0) {
-     * leftPoint++;
-     * }
-     * //The left pos is now 100% at something that should be on the right side
-     * 
-     * while (myCon.get(rightPoint).compareTo(pivotVal) < 0) {
-     * rightPoint++;
-     * }
-     * //The right pos is now 100% at something that should be on the left side
-     * }
-     * swap(low, rightPoint);
-     * quickSort(low, rightPoint-1);
-     * quickSort(rightPoint+1, high);
-     * }
-     * 
-     * /*
+     */
+    private void quickSort(int low, int high) {
+        // TODO check preconditions
+        // Base case where virtual list is empty or has one element
+        if (high - low < SIZE_WHEN_INSERTION_SORT_IS_FASTER_THAN_QUICK_SORT) {
+            insertionSort(low, high);
+        }
+        int pivotPoint = medianOfThree(low, low + (high - low) / 2, high);
+        E pivotVal = myCon.get(pivotPoint);
+        swap(low, pivotPoint);
+        int leftPoint = low + 1;
+        int rightPoint = high;
+        while (leftPoint <= rightPoint) {
+            // swaps first because previous loop
+            swap(leftPoint, rightPoint);
+
+            while (myCon.get(leftPoint).compareTo(pivotVal) < 0) {
+                leftPoint++;
+            }
+            // The left pos is now 100% at something that should be on the right side
+
+            while (myCon.get(rightPoint).compareTo(pivotVal) < 0) {
+                rightPoint++;
+            }
+            // The right pos is now 100% at something that should be on the left side
+        }
+        swap(low, rightPoint);
+        quickSort(low, rightPoint - 1);
+        quickSort(rightPoint + 1, high);
+    }
+
+    /*
      * TODO move this along with quick sort
      * 
      * TODO add pre and post conditions
-     *
-     * public void insertionSort(int minIndex, int maxIndex) {
-     * // TODO check preconditions
-     * int unsortedPos = minIndex + 1;
-     * E curVal;
-     * while (unsortedPos <= maxIndex) {
-     * int comparePos = unsortedPos - 1;
-     * curVal = myCon.get(unsortedPos);
-     * while (curVal.compareTo(myCon.get(comparePos)) < 0 && comparePos >= minIndex)
-     * {
-     * myCon.set(comparePos + 1, myCon.get(comparePos--));
-     * }
-     * myCon.set(comparePos + 1, curVal);
-     * }
-     * }
-     * 
-     * /*
-     * TODO move this wherever quicksort goes
-     * TODO add pre and post conditions
-     *
-     * private void swap(int posOne, int posTwo) {
-     * E temp = myCon.get(posTwo);
-     * myCon.set(posTwo, myCon.get(posOne));
-     * myCon.set(posOne, temp);
-     * }
-     * 
-     * /*
-     * TODO move this wherever quicksort goes
-     * 
-     * TODO add pre and post conditions
-     *
-     * private int medianOfThree(int x, int y, int z) {
-     * // I need to return the number that wins once, loses once
-     * int winner = Math.max(x, y);
-     * if (Math.max(winner, z) != winner) {
-     * // the original winner lost :)
-     * return winner;
-     * } else {
-     * // both these numbers have lost once
-     * return Math.max(Math.min(x, y), z);
-     * }
-     * }
      */
+    public void insertionSort(int minIndex, int maxIndex) {
+        // TODO check preconditions
+        int unsortedPos = minIndex + 1;
+        E curVal;
+        while (unsortedPos <= maxIndex) {
+            int comparePos = unsortedPos - 1;
+            curVal = myCon.get(unsortedPos);
+            while (curVal.compareTo(myCon.get(comparePos)) < 0 && comparePos >= minIndex) {
+                myCon.set(comparePos + 1, myCon.get(comparePos--));
+            }
+            myCon.set(comparePos + 1, curVal);
+        }
+    }
+
+    /*
+     * TODO move this wherever quicksort goes
+     * TODO add pre and post conditions
+     */
+    private void swap(int posOne, int posTwo) {
+        E temp = myCon.get(posTwo);
+        myCon.set(posTwo, myCon.get(posOne));
+        myCon.set(posOne, temp);
+    }
+
+    /*
+     * TODO move this wherever quicksort goes
+     * 
+     * TODO add pre and post conditions
+     */
+    private int medianOfThree(int x, int y, int z) {
+        // I need to return the number that wins once, loses once
+        int winner = Math.max(x, y);
+        if (Math.max(winner, z) != winner) {
+            // the original winner lost :)
+            return winner;
+        } else {
+            // both these numbers have lost once
+            return Math.max(Math.min(x, y), z);
+        }
+    }
 
     /*
      * Very quick helper Constructor.
@@ -266,6 +264,7 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
     /*
      * TODO move the merge and mergeSort methods out of the way to be more organized
      * TODO add pre and post conditions
+     * TODO do we need merge sort? Idk.
      */
     private ArrayList<E> merge(ArrayList<E> listOne, ArrayList<E> listTwo) {
         ArrayList<E> newList = new ArrayList<>();
@@ -308,6 +307,19 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
     private int get(E target) {
         // TODO Check preconditions.
         return binarySearch(0, myCon.size() - 1, target);
+    }
+
+    /**
+     * Return the number of elements of this set.
+     * 
+     * Efficiency: O(1)
+     * 
+     * pre: none
+     * 
+     * @return the number of items in this set
+     */
+    public int size() {
+        return myCon.size();
     }
 
     /*
@@ -502,7 +514,30 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
      * @return a set that is the intersection of this set and otherSet
      */
     public ISet<E> intersection(ISet<E> otherSet) {
+        ArrayList<E> newCon = new ArrayList<>();
+        if (otherSet instanceof SortedSet<E>) {
+            ArrayList<E> otherCon = ((SortedSet) otherSet).myCon;
+            int thisPos = 0;
+            int otherPos = 0;
 
+            while (thisPos < size() && otherPos < otherSet.size()) {
+                if (myCon.get(thisPos).compareTo(otherCon.get(otherPos)) < 0) {
+                    thisPos++;
+                } else if (myCon.get(thisPos).equals(otherCon.get(otherPos))) {
+                    thisPos++;
+                    otherPos++;
+                } else {
+                    otherPos++;
+                }
+            }
+        } else {
+            for (E val : otherSet) {
+                if (contains(val)) {
+                    newCon.add(val);
+                }
+            }
+        }
+        return new SortedSet<>(newCon);
     }
 
     /**
@@ -525,6 +560,7 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
                 if (!val.equals(myCon.get(curIndex))) {
                     return false;
                 }
+                curIndex++;
             }
             return true;
         } else {
@@ -578,10 +614,17 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
         return myCon.toString();
     }
 
-    @Override
+    /*
+     * TODO add pre and post con
+     */
     public boolean remove(E item) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'remove'");
+        int removePos = get(item);
+        if (removePos >= 0) {
+            myCon.remove(removePos);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override

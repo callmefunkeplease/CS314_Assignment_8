@@ -42,8 +42,6 @@ public class UnsortedSet<E> extends AbstractSet314<E> {
      * Add an item to this set.
      * <br>
      * item != null
-	 * 
-	 * Efficiency O(N)
      * 
      * @param item the item to be added to this set. item may not equal null.
      * @return true if this set changed as a result of this operation,
@@ -65,13 +63,12 @@ public class UnsortedSet<E> extends AbstractSet314<E> {
     /**
      * Remove the specified item from this set if it is present.
      * pre: item != null
-	 * Efficiency O(N)
      * 
      * @param item the item to remove from the set. item may not equal null.
      * @return true if this set changed as a result of this operation,
      *         false otherwise
      */
-    public boolean remove(E item){
+    public abstract boolean remove(E item){
 		if(item == null){
 			throw new IllegalArgumentException("Item cannot be null.");
 		}
@@ -79,21 +76,8 @@ public class UnsortedSet<E> extends AbstractSet314<E> {
 		if(removed){
 			size--;
 		}
-		return removed;
+		r
 	}
-
-	@Override
-	/**
-     * Return the number of elements of this set.
-     * pre: none
-     * 
-     * Efficiency O(1)
-     * 
-     * @return the number of items in this set
-     */
-    public int size() {
-        return size;
-    }
 
 	@Override
 	public ISet<E> union(ISet<E> otherSet) {
