@@ -76,6 +76,8 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      * <br>
      * item != null
      * 
+     * Efficiency: O(N), probably
+     * 
      * @param item the item to be added to this set. item may not equal null.
      * @return true if this set changed as a result of this operation,
      *         false otherwise.
@@ -103,6 +105,9 @@ public abstract class AbstractSet314<E> implements ISet<E> {
 
     /**
      * Make this set empty.
+     * 
+     * Efficiency: O(N)
+     * 
      * <br>
      * pre: none
      * <br>
@@ -263,6 +268,8 @@ public abstract class AbstractSet314<E> implements ISet<E> {
     /**
      * Return the number of elements of this set.
      * pre: none
+     * 
+     * Efficiency O(N)
      * 
      * @return the number of items in this set
      */

@@ -31,18 +31,69 @@ import java.util.ArrayList;
 public class UnsortedSet<E> extends AbstractSet314<E> {
 
     private ArrayList<E> myCon;
+	private int size;
 
-	@Override
-	public boolean add(E item) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'add'");
+	public UnsortedSet(){
+		myCon = new ArrayList<>();
 	}
 
 	@Override
-	public boolean remove(E item) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'remove'");
+    /**
+     * Add an item to this set.
+     * <br>
+     * item != null
+	 * 
+	 * Efficiency O(N)
+     * 
+     * @param item the item to be added to this set. item may not equal null.
+     * @return true if this set changed as a result of this operation,
+     *         false otherwise.
+     */
+    public boolean add(E item){
+		if(item == null){
+			throw new IllegalArgumentException("Item cannot be null.");
+		}
+		if(contains(item)){
+			return false;
+		}
+		myCon.add(item);
+		size++;
+		return true;
 	}
+
+	@Override
+    /**
+     * Remove the specified item from this set if it is present.
+     * pre: item != null
+	 * Efficiency O(N)
+     * 
+     * @param item the item to remove from the set. item may not equal null.
+     * @return true if this set changed as a result of this operation,
+     *         false otherwise
+     */
+    public boolean remove(E item){
+		if(item == null){
+			throw new IllegalArgumentException("Item cannot be null.");
+		}
+		boolean removed = myCon.remove(item);
+		if(removed){
+			size--;
+		}
+		return removed;
+	}
+
+	@Override
+	/**
+     * Return the number of elements of this set.
+     * pre: none
+     * 
+     * Efficiency O(1)
+     * 
+     * @return the number of items in this set
+     */
+    public int size() {
+        return size;
+    }
 
 	@Override
 	public ISet<E> union(ISet<E> otherSet) {
