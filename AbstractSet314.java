@@ -14,11 +14,10 @@
  *  Student 2 
  *  UTEID: psp782
  *  email address: psp782@my.utexas.edu
+ *  TA name: Karnika Choudhury
  */
 
 import java.util.Iterator;
-
-import javax.print.attribute.standard.MediaSize.Other;
 
 /**
  * Students are to complete this class.
@@ -75,6 +74,8 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      * <br>
      * item != null
      * 
+     * Efficiency: O(N), probably
+     * 
      * @param item the item to be added to this set. item may not equal null.
      * @return true if this set changed as a result of this operation,
      *         false otherwise.
@@ -91,17 +92,20 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      * @return true if this set changed as a result of this operation,
      *         false otherwise.
      */
-    public boolean addAll(ISet<E> otherSet){
+    public boolean addAll(ISet<E> otherSet) {
         // TODO Add precondition checks
-        int originalSize=size();
-        for(E val:otherSet){
+        int originalSize = size();
+        for (E val : otherSet) {
             add(val);
         }
-        return originalSize==size();
+        return originalSize == size();
     }
 
     /**
      * Make this set empty.
+     * 
+     * Efficiency: O(N)
+     * 
      * <br>
      * pre: none
      * <br>
@@ -148,7 +152,7 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      * pre: otherSet != null
      * 
      * Efficiency:
-     * O(N^2) if otherSet is an unsorted Set 
+     * O(N^2) if otherSet is an unsorted Set
      * O(Nlog(N)) if otherSet is a sorted Set
      * 
      * @param otherSet != null
@@ -203,11 +207,18 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      * <br>
      * pre: none
      * 
+     * Efficiency O(N^2)
+     * 
      * @param other the object to compare to this set
      * @return true if other is a Set and has the same elements as this set
      */
-    public boolean equals(Object other){
-        if(other==null||other.getClass()!=)
+    public boolean equals(Object other) {
+        // TODO is the wildcard ? actually good to go here\/ ?
+        if (other == null || !(other instanceof ISet<?>) || ((ISet<?>) other).size() != size()) {
+            return false;
+        }
+        //TODO make this work. Like it shouldn't work. What's going on?
+        return containsAll((ISet<E>) other);
     }
 
     /**
@@ -224,10 +235,10 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      * @param otherSet != null
      * @return a set that is the intersection of this set and otherSet
      */
-    public ISet<E> intersection(ISet<E> otherSet){
-        ISet<E> returnSet=union(otherSet);
-        for(E val:returnSet){
-            if(!(contains(val)&&otherSet.contains(val))){
+    public ISet<E> intersection(ISet<E> otherSet) {
+        ISet<E> returnSet = union(otherSet);
+        for (E val : returnSet) {
+            if (!(contains(val) && otherSet.contains(val))) {
                 returnSet.remove(val);
             }
         }
@@ -240,7 +251,7 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      * 
      * @return an Iterator object for the elements of this set
      */
-    public Iterator<E> iterator();
+    public abstract Iterator<E> iterator();
 
     /**
      * Remove the specified item from this set if it is present.
@@ -250,15 +261,25 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      * @return true if this set changed as a result of this operation,
      *         false otherwise
      */
-    public boolean remove(E item);
+    public abstract boolean remove(E item);
 
     /**
      * Return the number of elements of this set.
      * pre: none
      * 
+     * Efficiency O(N)
+     * 
      * @return the number of items in this set
      */
-    public int size();
+    public int size() {
+        Iterator<E> it = iterator();
+        int size = 0;
+        while (it.hasNext()) {
+            size++;
+            it.next();
+        }
+        return size;
+    }
 
     /**
      * Create a new set that is the union of this set and otherSet.
@@ -273,7 +294,9 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      * @param otherSet != null
      * @return a set that is the union of this set and otherSet
      * 
-     * Note: Union is used in both difference and intersection. If we were to declare it abstractly, it would allow the client to not declare their own version of it, resulting in an infinite loop. 
+     *         Note: Union is used in both difference and intersection. If we were
+     *         to declare it abstractly, it would allow the client to not declare
+     *         their own version of it, resulting in an infinite loop.
      */
     public abstract ISet<E> union(ISet<E> otherSet);
 }

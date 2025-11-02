@@ -31,5 +31,58 @@ import java.util.ArrayList;
 public class UnsortedSet<E> extends AbstractSet314<E> {
 
     private ArrayList<E> myCon;
+	private int size;
+
+	public UnsortedSet(){
+		myCon = new ArrayList<>();
+	}
+
+	@Override
+    /**
+     * Add an item to this set.
+     * <br>
+     * item != null
+     * 
+     * @param item the item to be added to this set. item may not equal null.
+     * @return true if this set changed as a result of this operation,
+     *         false otherwise.
+     */
+    public boolean add(E item){
+		if(item == null){
+			throw new IllegalArgumentException("Item cannot be null.");
+		}
+		if(contains(item)){
+			return false;
+		}
+		myCon.add(item);
+		size++;
+		return true;
+	}
+
+	@Override
+    /**
+     * Remove the specified item from this set if it is present.
+     * pre: item != null
+     * 
+     * @param item the item to remove from the set. item may not equal null.
+     * @return true if this set changed as a result of this operation,
+     *         false otherwise
+     */
+    public abstract boolean remove(E item){
+		if(item == null){
+			throw new IllegalArgumentException("Item cannot be null.");
+		}
+		boolean removed = myCon.remove(item);
+		if(removed){
+			size--;
+		}
+		r
+	}
+
+	@Override
+	public ISet<E> union(ISet<E> otherSet) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'union'");
+	}
 
 }

@@ -33,9 +33,13 @@ import javax.swing.JFileChooser;
  */
 
 public class SetTester {
+        static int testNum=0;
+        static int passedTests=0;
+        static int failedTests=0;
+
 
     public static void main(String[] args) {
-
+/* TODO uncomment this big code to run mike's tests
         ISet<String> s1 = new UnsortedSet<>();
         s1.add("A");
         s1.add("C");
@@ -116,7 +120,7 @@ public class SetTester {
         showTestResults(actual, false, 10, s1, null, "remove and contains method SortedSet"
                 + "/nset1 does not contain A.");
 
-
+ 
         // test 11
         actual = s1.size() == 2;
         showTestResults(actual, true, 11, s1, null, "size method SortedSet"
@@ -235,7 +239,7 @@ public class SetTester {
         // test 24
         actual = s1.equals(null);
         showTestResults(actual, false, 24, s1, null, "equals methods SortedSet - other Object is null");
-
+*/
         // CS314 Students. Uncomment this section when ready to
         // run your experiments
         // try {
@@ -253,6 +257,49 @@ public class SetTester {
         // } while( response != null && response.length() > 0
         // && response.substring(0,1).equalsIgnoreCase("y") );
 
+        studentTests();
+    }
+
+    public static void studentTests(){
+        //TODO add tests that check differing Object Types of E and stuff. 
+
+        SortedSet<Integer> s=new SortedSet<>();
+        
+    }
+    
+    public static void testResults(){
+        System.out.println("Total  Tests: " + testNum);
+        System.out.println("Passed Tests: " + passedTests);
+        System.out.println("Failed Tests: " + failedTests);
+        System.out.println("Success Rate: " +
+                (double) ((passedTests * 10000 / testNum + 5) / 10) / 10 + "%");
+    }
+    
+    public static void quickTest(String testName, Object expected,
+            Object actual) {
+        testNum++;
+        System.out.println("Test " + testNum + ", " + testName + "\nexpected value: "
+                + expected + "\n  actual value: " + actual);
+        if (expected.equals(actual)) {
+            System.out.println("passed test " + testNum + ", " + testName);
+            passedTests++;
+        } else {
+            System.out.println(" ***** FAILED ***** test " + testNum + ", " + testName);
+            failedTests++;
+        }
+    }
+
+    public static void quickTestNullExpected(String testName, Object actual) {
+        testNum++;
+        System.out.println("Test " + testNum + ", " + testName + "\nexpected value: "
+                + "null" + "\n  actual value: " + actual);
+        if (actual == null) {
+            System.out.println("passed test " + testNum + ", " + testName);
+            passedTests++;
+        } else {
+            System.out.println(" ***** FAILED ***** test " + testNum + ", " + testName);
+            failedTests++;
+        }
     }
 
     // print out results of test
