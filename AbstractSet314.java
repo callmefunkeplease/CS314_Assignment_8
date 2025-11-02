@@ -1,6 +1,6 @@
 /*  Student information for assignment:
  *
- *  On our honor, Funke and <NAME2), 
+ *  On our honor, Funke and Pranav), 
  *  this programming assignment is our own work
  *  and we have not provided this code to any other student.
  *
@@ -18,8 +18,6 @@
  */
 
 import java.util.Iterator;
-
-import javax.print.attribute.standard.MediaSize.Other;
 
 /**
  * Students are to complete this class.
