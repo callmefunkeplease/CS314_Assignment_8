@@ -209,7 +209,22 @@ public abstract class AbstractSet314<E> implements ISet<E> {
         if (other == null || !(other instanceof ISet<?>) || ((ISet<?>) other).size() != size()) {
             return false;
         }
-        return containsAll((ISet<E>) other);
+        if (this == other) {
+            return true;
+        }
+        for (E val : this) {
+            Iterator<?> otherIterator = ((ISet<?>) other).iterator();
+            boolean foundVal = false;
+            while (!foundVal && otherIterator.hasNext()) {
+                if (val.equals(otherIterator.next())) {
+                    foundVal = true;
+                }
+            }
+            if (!foundVal) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

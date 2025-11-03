@@ -526,7 +526,7 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
         }
         if (other instanceof SortedSet) {
             int curIndex = 0;
-            for (E val : this) {
+            for (Comparable val : this) {
                 // I don't care what other's objects are. Let them decide if they're equal
                 if (!val.equals(((SortedSet) other).myCon.get(curIndex))) {
                     return false;
