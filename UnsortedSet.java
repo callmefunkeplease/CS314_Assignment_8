@@ -16,8 +16,8 @@
  *  email address: psp782@my.utexas.edu
  */
 
-import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * A simple implementation of an ISet.
@@ -31,7 +31,6 @@ import java.util.ArrayList;
 public class UnsortedSet<E> extends AbstractSet314<E> {
 
 	private ArrayList<E> myCon;
-	// TODO Note: I removed the internal size tracker because myCon has a size
 
 	public UnsortedSet() {
 		myCon = new ArrayList<>();
@@ -42,10 +41,12 @@ public class UnsortedSet<E> extends AbstractSet314<E> {
 	 * 
 	 * Efficiency: O(N)
 	 * 
-	 * TODO add pre and post con
+	 * pre: otherSet != null
 	 */
 	private UnsortedSet(ISet<E> otherSet) {
-		// TODO check precon
+		if(otherSet == null){
+            throw new IllegalArgumentException("otherSet can't be null.");
+        }
 		myCon = new ArrayList<>();
 		for (E val : otherSet) {
 			myCon.add(val);
@@ -66,7 +67,7 @@ public class UnsortedSet<E> extends AbstractSet314<E> {
 	 */
 	public boolean add(E item) {
 		if (item == null) {
-			throw new IllegalArgumentException("Item cannot be null.");
+			throw new IllegalArgumentException("item cannot be null.");
 		}
 		if (contains(item)) {
 			return false;
@@ -89,7 +90,7 @@ public class UnsortedSet<E> extends AbstractSet314<E> {
 	 */
 	public boolean remove(E item) {
 		if (item == null) {
-			throw new IllegalArgumentException("Item cannot be null.");
+			throw new IllegalArgumentException("item cannot be null.");
 		}
 		// TODO Note: I condensed this code
 		return myCon.remove(item);
@@ -145,6 +146,9 @@ public class UnsortedSet<E> extends AbstractSet314<E> {
 	 * @return a set that is the difference of this set and otherSet
 	 */
 	public ISet<E> difference(ISet<E> otherSet) {
+		if(otherSet == null){
+            throw new IllegalArgumentException("otherSet can't be null.");
+        }
 		UnsortedSet<E> returnSet = new UnsortedSet<>();
 		for (E val : this) {
 			if(!otherSet.contains(val)){
@@ -173,6 +177,9 @@ public class UnsortedSet<E> extends AbstractSet314<E> {
 	 * @return a set that is the intersection of this set and otherSet
 	 */
 	public ISet<E> intersection(ISet<E> otherSet) {
+		if(otherSet == null){
+            throw new IllegalArgumentException("otherSet can't be null.");
+        }
 		UnsortedSet<E> returnSet = new UnsortedSet<>();
 		for (E val : this) {
 			// otherSet might be sorted. this set definitely is not. Therefore, the
@@ -202,6 +209,9 @@ public class UnsortedSet<E> extends AbstractSet314<E> {
 	 * @return a set that is the union of this set and otherSet
 	 */
 	public ISet<E> union(ISet<E> otherSet) {
+		if(otherSet == null){
+            throw new IllegalArgumentException("otherSet can't be null.");
+        }
 		UnsortedSet<E> returnSet = new UnsortedSet<>(otherSet);
 		for (E val : this) {
 			// Uses myCon.add instead of built in add because myCon is O(1), while the built

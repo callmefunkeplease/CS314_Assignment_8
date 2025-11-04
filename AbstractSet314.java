@@ -93,7 +93,9 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      *         false otherwise.
      */
     public boolean addAll(ISet<E> otherSet) {
-        // TODO Add precondition checks
+        if(otherSet == null){
+            throw new IllegalArgumentException("otherSet can't be null.");
+        }
         int originalSize = size();
         for (E val : otherSet) {
             add(val);
@@ -131,7 +133,9 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      * @return true if this set contains the specified item, false otherwise.
      */
     public boolean contains(E item) {
-        // TODO Add precondition checks
+        if(item == null){
+            throw new IllegalArgumentException("item can't be null.");
+        }
         for (E val : this) {
             if (val.equals(item)) {
                 return true;
@@ -152,7 +156,9 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      *         false otherwise.
      */
     public boolean containsAll(ISet<E> otherSet) {
-        // TODO Add precondition checks
+        if(otherSet == null){
+            throw new IllegalArgumentException("otherSet can't be null.");
+        }
         for (E otherVal : otherSet) {
             // if there's an otherVal this set doesn't contain, then it's false
             if (!contains(otherVal)) {
@@ -184,7 +190,9 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      * @return a set that is the difference of this set and otherSet
      */
     public ISet<E> difference(ISet<E> otherSet) {
-        // TODO Add precondition checks
+        if(otherSet == null){
+            throw new IllegalArgumentException("otherSet can't be null.");
+        }
         ISet<E> returnSet = union(otherSet);
         // We want everything otherSet doesn't have
         for (E unwantedVal : otherSet) {
@@ -242,6 +250,9 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      * @return a set that is the intersection of this set and otherSet
      */
     public ISet<E> intersection(ISet<E> otherSet) {
+        if(otherSet == null){
+            throw new IllegalArgumentException("otherSet can't be null.");
+        }
         ISet<E> returnSet = union(otherSet);
         for (E val : returnSet) {
             if (!(contains(val) && otherSet.contains(val))) {

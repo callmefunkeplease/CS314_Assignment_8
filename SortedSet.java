@@ -68,6 +68,9 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
      * @param other != null
      */
     public SortedSet(ISet<E> other) {
+        if(other == null){
+            throw new IllegalArgumentException("other can't be null.");
+        }
         myCon = new ArrayList<>();
         if (other instanceof SortedSet<E>) {
             for (E val : ((SortedSet<E>) other).myCon) {
@@ -104,9 +107,14 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
      * 
      * Efficiency: O(N)
      * 
-     * TODO add pre and post con
+     * pre: otherSet != null
+     * 
+     * @param otherSet != null
      */
     private SortedSet(SortedSet<E> otherSet) {
+        if(otherSet == null){
+            throw new IllegalArgumentException("otherSet can't be null.");
+        }
         myCon = new ArrayList<>();
         for (E val : otherSet) {
             myCon.add(val);
@@ -115,8 +123,8 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
 
     /*
      * TODO move this method out of where all the constructors are
-     * Note to Karnika, I chose to use QuickSort over mergeSort because I'm already
-     * using and know how to do mergeSort. I want to learn quickSort better
+     * Note to Karnika, we chose to use QuickSort over mergeSort because we're already
+     * using and know how to do mergeSort. We want to learn quickSort better
      * 
      * TODO add pre and post conditions
      */
@@ -208,7 +216,9 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
      *         false otherwise.
      */
     public boolean add(E item) {
-        // TODO add precon checks
+        if(item == null){
+            throw new IllegalArgumentException("item can't be null.");
+        }
         int searchResult = get(item);
         if (searchResult < 0) {
             myCon.add((searchResult + 1) * -1, item);
@@ -230,6 +240,9 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
      *         false otherwise.
      */
     public boolean addAll(ISet<E> otherSet) {
+        if(otherSet == null){
+            throw new IllegalArgumentException("otherSet can't be null.");
+        }
         if (otherSet instanceof SortedSet<E>) {
             int originalSize = size();
             myCon = merge(myCon, ((SortedSet<E>) otherSet).myCon);
@@ -319,7 +332,9 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
      * ((target would be if it was in myCon/Where to insert target)*-1)-1
      */
     private int get(E target) {
-        // TODO Check preconditions.
+        if(target == null){
+            throw new IllegalArgumentException("target can't be null.");
+        }
         return binarySearch(0, myCon.size() - 1, target);
     }
 
@@ -388,6 +403,9 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
      *         false otherwise.
      */
     public boolean containsAll(ISet<E> otherSet) {
+        if(otherSet == null){
+            throw new IllegalArgumentException("otherSet can't be null.");
+        }
         // O(N) if this is true
         if (otherSet instanceof SortedSet<E>) {
             int thisPos = 0;
@@ -437,6 +455,9 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
      * @return a set that is the difference of this set and otherSet
      */
     public ISet<E> difference(ISet<E> otherSet) {
+        if(otherSet == null){
+            throw new IllegalArgumentException("otherSet can't be null.");
+        }
         if (otherSet instanceof SortedSet<E>) {
             ArrayList<E> newCon = new ArrayList<>();
             ArrayList<E> otherCon=((SortedSet<E>) otherSet).myCon;
@@ -482,6 +503,9 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
      * @return a set that is the intersection of this set and otherSet
      */
     public ISet<E> intersection(ISet<E> otherSet) {
+        if(otherSet == null){
+            throw new IllegalArgumentException("otherSet can't be null.");
+        }
         ArrayList<E> newCon = new ArrayList<>();
         if (otherSet instanceof SortedSet<E>) {
             ArrayList<E> otherCon = ((SortedSet) otherSet).myCon;
@@ -543,6 +567,10 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
      * @return the smallest element in this SortedSet.
      */
     public E min() {
+        //TODO what is the exception needed to be thrown here
+        if(myCon.size() == 0){
+            throw new IllegalArgumentException("otherSet can't be null.");
+        }
         return myCon.get(0);
     }
 
@@ -556,6 +584,10 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
      * @return the largest element in this SortedSet.
      */
     public E max() {
+        //TODO what is the exception needed to be thrown here
+        if(myCon.size() == 0){
+            throw new IllegalArgumentException("otherSet can't be null.");
+        }
         return myCon.getLast();
     }
 
@@ -569,10 +601,18 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
         return myCon.iterator();
     }
 
-    /*
-     * TODO add pre and post con
+    /**
+     * Remove the specified item from this set if it is present.
+     * pre: item != null
+     * 
+     * @param item the item to remove from the set. item may not equal null.
+     * @return true if this set changed as a result of this operation,
+     *         false otherwise
      */
     public boolean remove(E item) {
+        if(item == null){
+            throw new IllegalArgumentException("item can't be null.");
+        }
         int removePos = get(item);
         if (removePos >= 0) {
             myCon.remove(removePos);
@@ -582,11 +622,25 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
         }
     }
 
-    /*
-     * TODO add pre and post con
+    /**
+     * Create a new set that is the union of this set and otherSet.
+     * <br>
+     * pre: otherSet != null
+     * <br>
+     * post: returns a set that is the union of this set and otherSet.
+     * Neither this set or otherSet are altered as a result of this operation.
+     * <br>
+     * pre: otherSet != null
+     * 
+     * @param otherSet != null
+     * @return a set that is the union of this set and otherSet
+     * 
      */
     @Override
     public ISet<E> union(ISet<E> otherSet) {
+        if(otherSet == null){
+            throw new IllegalArgumentException("otherSet can't be null.");
+        }
         ArrayList<E> newCon;
         if(otherSet instanceof SortedSet){
             newCon=merge(myCon, ((SortedSet) otherSet).myCon);
