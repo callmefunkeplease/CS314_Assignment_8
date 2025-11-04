@@ -39,7 +39,7 @@ public class SetTester {
 
 
     public static void main(String[] args) {
-/* TODO uncomment this big code to run mike's tests
+// TODO uncomment this big code to run mike's tests
         ISet<String> s1 = new UnsortedSet<>();
         s1.add("A");
         s1.add("C");
@@ -239,7 +239,7 @@ public class SetTester {
         // test 24
         actual = s1.equals(null);
         showTestResults(actual, false, 24, s1, null, "equals methods SortedSet - other Object is null");
-*/
+
         // CS314 Students. Uncomment this section when ready to
         // run your experiments
         // try {

@@ -293,7 +293,7 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
                 listOnePos++;
                 listTwoPos++;
             } else {
-                newList.add(listOne.get(listTwoPos));
+                newList.add(listTwo.get(listTwoPos));
                 listTwoPos++;
             }
         }
@@ -439,15 +439,16 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
     public ISet<E> difference(ISet<E> otherSet) {
         if (otherSet instanceof SortedSet<E>) {
             ArrayList<E> newCon = new ArrayList<>();
+            ArrayList<E> otherCon=((SortedSet<E>) otherSet).myCon;
             int thisPos = 0;
             int otherPos = 0;
 
             // find everything in "this" that is less than the otherSet.max()
             while (otherPos < otherSet.size()) {
-                if (myCon.get(thisPos).compareTo(((SortedSet<E>) otherSet).myCon.get(otherPos)) < 0) {
+                if (myCon.get(thisPos).compareTo(otherCon.get(otherPos)) < 0) {
                     newCon.add(myCon.get(thisPos));
                     thisPos++;
-                } else if (myCon.get(thisPos).equals(((SortedSet<E>) otherSet).myCon.get(otherPos))) {
+                } else if (myCon.get(thisPos).equals(otherCon.get(otherPos))) {
                     thisPos++;
                     otherPos++;
                 } else {
@@ -491,6 +492,7 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
                 if (myCon.get(thisPos).compareTo(otherCon.get(otherPos)) < 0) {
                     thisPos++;
                 } else if (myCon.get(thisPos).equals(otherCon.get(otherPos))) {
+                    newCon.add(myCon.get(thisPos));
                     thisPos++;
                     otherPos++;
                 } else {
@@ -518,7 +520,7 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
      * @return true if other is a Set and has the same elements as this set
      */
     public boolean equals(Object other) {
-        if (other == null || !(other instanceof ISet<?>) || size() != ((ISet) other).size()) {
+        if (other == null || !(other instanceof ISet<?>)) {
             return false;
         }
         if(other==this){
@@ -567,11 +569,6 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
         return myCon.iterator();
     }
 
-    // TODO DELETE THIS ENTIRE METHOD WHEN DONE
-    public String toString() {
-        return myCon.toString();
-    }
-
     /*
      * TODO add pre and post con
      */
@@ -585,6 +582,9 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
         }
     }
 
+    /*
+     * TODO add pre and post con
+     */
     @Override
     public ISet<E> union(ISet<E> otherSet) {
         ArrayList<E> newCon;
