@@ -1,6 +1,6 @@
 /*  Student information for assignment:
  *
- *  On our honor, Funke and <NAME2), 
+ *  On our honor, Funke and Pranav Polikepati), 
  *  this programming assignment is our own work
  *  and we have not provided this code to any other student.
  *
@@ -12,12 +12,12 @@
  *  TA name:Karnika Choudhury
  *  
  *  Student 2 
- *  UTEID:
- *  email address:   
+ *  UTEID: psp782
+ *  email address: psp782@my.utexas.edu
  */
 
-import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * In this implementation of the ISet interface the elements in the Set are

@@ -10,8 +10,8 @@
  *  TA name:Karnika Choudhury
  *  
  *  Student 2 
- *  UTEID:
- *  email address:   
+ *  UTEID: psp782
+ *  email address: psp782@my.utexas.edu
  */
 
 import java.io.File;
