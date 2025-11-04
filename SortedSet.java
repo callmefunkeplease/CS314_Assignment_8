@@ -68,18 +68,48 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
      * @param other != null
      */
     public SortedSet(ISet<E> other) {
+        myCon = new ArrayList<>();
         if (other instanceof SortedSet<E>) {
             for (E val : ((SortedSet<E>) other).myCon) {
                 myCon.add(val);
             }
         } else {
-            myCon = new ArrayList<>();
             for (E val : other) {
                 myCon.add(val);
             }
             if (myCon.size() > 1) {
                 quickSort(0, myCon.size() - 1);
             } // else{ I'm good. The empty/single val is sorted }
+        }
+    }
+
+    /*
+     * Very quick helper Constructor.
+     * 
+     * Efficiency: O(1)
+     * 
+     * Pre: sortedSetList is an arrayList that follows all the rules of a SortedSet.
+     * Post: Constructs a sortedSetList with the parameter as the container.
+     * 
+     * VERY IMPORTANT NOTE* DO NOT USE UNLESS YOU ALREADY SORTED AND FILTERED
+     * sortedSetList. THERE ARE NO PRECONDITION CHECKERS BECAUSE IT'S STUPID TO HAVE
+     * CHECKING THE PRECONDITIONS TAKE LONGER THAN RUNNING THE METHOD.
+     */
+    private SortedSet(ArrayList<E> sortedSetList) {
+        myCon = sortedSetList;
+    }
+
+    /*
+     * Private helper Constructor that makes a deep copy of a SortedSet
+     * 
+     * Efficiency: O(N)
+     * 
+     * TODO add pre and post con
+     */
+    private SortedSet(SortedSet<E> otherSet) {
+        myCon = new ArrayList<>();
+        for (E val : otherSet) {
+            myCon.add(val);
         }
     }
 
@@ -164,22 +194,6 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
             // both these numbers have lost once
             return Math.max(Math.min(x, y), z);
         }
-    }
-
-    /*
-     * Very quick helper Constructor.
-     * 
-     * Efficiency: O(1)
-     * 
-     * Pre: sortedSetList is an arrayList that follows all the rules of a SortedSet.
-     * Post: Constructs a sortedSetList with the parameter as the container.
-     * 
-     * VERY IMPORTANT NOTE* DO NOT USE UNLESS YOU ALREADY SORTED AND FILTERED
-     * sortedSetList. THERE ARE NO PRECONDITION CHECKERS BECAUSE IT'S STUPID TO HAVE
-     * CHECKING THE PRECONDITIONS TAKE LONGER THAN RUNNING THE METHOD.
-     */
-    private SortedSet(ArrayList<E> sortedSetList) {
-        myCon = sortedSetList;
     }
 
     /**
@@ -391,8 +405,8 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
             return true;
         }
         // O(Nlog(N)) if above was false
-        for (E val : otherSet) {
-            if (!contains(val)) {
+        for (E otherVal : otherSet) {
+            if (!contains(otherVal)) {
                 return false;
             }
         }
@@ -428,7 +442,7 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
             int thisPos = 0;
             int otherPos = 0;
 
-            // find everything "this" that is less than the otherSet.max()
+            // find everything in "this" that is less than the otherSet.max()
             while (otherPos < otherSet.size()) {
                 if (myCon.get(thisPos).compareTo(((SortedSet<E>) otherSet).myCon.get(otherPos)) < 0) {
                     newCon.add(myCon.get(thisPos));
@@ -440,63 +454,16 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
                     otherPos++;
                 }
             }
-            // Finds and adds everything greater than otherSet.max()
+            // automatically add everything greater than otherSet.max()
             while (thisPos < size()) {
                 newCon.add(myCon.get(thisPos));
                 thisPos++;
             }
             return new SortedSet(newCon);
         } else {
-            // else sort the otherSet and run the method again.
+            // If otherSet isn't a SortedSet, sort it; O(Nlog(N)+N) is better.
             return difference(new SortedSet<>(otherSet));
         }
-    }
-
-    /**
-     * Create a new set that is the difference of this set and otherSet.
-     * Return an ISet of elements that are in this Set but not in otherSet.
-     * Also called the relative complement.
-     * <br>
-     * Example: If ISet A contains [X, Y, Z] and ISet B contains [W, Z]
-     * then A.difference(B) would return an ISet with elements [X, Y] while
-     * B.difference(A) would return an ISet with elements [W].
-     * <br>
-     * pre: otherSet != null
-     * <br>
-     * post: returns a set that is the difference of this set and otherSet.
-     * Neither this set or otherSet are altered as a result of this operation.
-     * <br>
-     * pre: otherSet != null
-     * 
-     * Efficiency: O(N)
-     * 
-     * @param otherSet != null
-     * @return a set that is the difference of this set and otherSet
-     */
-    public ISet<E> difference(SortedSet<E> otherSet) {
-        ArrayList<E> newCon = new ArrayList<>();
-        int thisPos = 0;
-        int otherPos = 0;
-
-        // find everything "this" that is less than the otherSet.max()
-        while (otherPos < otherSet.size()) {
-            if (myCon.get(thisPos).compareTo(otherSet.myCon.get(otherPos)) < 0) {
-                newCon.add(myCon.get(thisPos));
-                thisPos++;
-            } else if (myCon.get(thisPos).equals(otherSet.myCon.get(otherPos))) {
-                thisPos++;
-                otherPos++;
-            } else {
-                otherPos++;
-            }
-        }
-        // Finds and adds everything greater than otherSet.max()
-        while (thisPos < size()) {
-            newCon.add(myCon.get(thisPos));
-            thisPos++;
-        }
-
-        return new SortedSet(newCon);
     }
 
     /**
@@ -554,22 +521,22 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
         if (other == null || !(other instanceof ISet<?>) || size() != ((ISet) other).size()) {
             return false;
         }
+        if(other==this){
+            return true;
+        }
         if (other instanceof SortedSet) {
             int curIndex = 0;
-            for (E val : (SortedSet<E>) other) {
-                if (!val.equals(myCon.get(curIndex))) {
+            for (Comparable val : this) {
+                // I don't care what other's objects are. Let them decide if they're equal
+                if (!val.equals(((SortedSet) other).myCon.get(curIndex))) {
                     return false;
                 }
                 curIndex++;
             }
             return true;
         } else {
-            for (E val : (ISet<E>) other) {
-                if (!contains(val)) {
-                    return false;
-                }
-            }
-            return true;
+            //TODO make this Nlog(N) and remove super.equals()
+            return super.equals(other);
         }
     }
 

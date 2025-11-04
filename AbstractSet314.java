@@ -141,19 +141,11 @@ public abstract class AbstractSet314<E> implements ISet<E> {
     }
 
     /**
-     * 
-     * TODO Hey Pranav, double check this method specifically to make sure that the
-     * TODO logic holds for when this contains everything other has to offer and not
-     * TODO the opposite case. I'm 95% sure that I did it right, but this is the
-     * TODO most likely to have a dumb logic error out of everything so far.
-     * 
      * Determine if all of the elements of otherSet are in this set.
      * <br>
      * pre: otherSet != null
      * 
-     * Efficiency:
-     * O(N^2) if otherSet is an unsorted Set
-     * O(Nlog(N)) if otherSet is a sorted Set
+     * Efficiency: O(N^2)
      * 
      * @param otherSet != null
      * @return true if this set contains all of the elements in otherSet,
@@ -162,6 +154,7 @@ public abstract class AbstractSet314<E> implements ISet<E> {
     public boolean containsAll(ISet<E> otherSet) {
         // TODO Add precondition checks
         for (E otherVal : otherSet) {
+            // if there's an otherVal this set doesn't contain, then it's false
             if (!contains(otherVal)) {
                 return false;
             }
@@ -213,12 +206,25 @@ public abstract class AbstractSet314<E> implements ISet<E> {
      * @return true if other is a Set and has the same elements as this set
      */
     public boolean equals(Object other) {
-        // TODO is the wildcard ? actually good to go here\/ ?
         if (other == null || !(other instanceof ISet<?>) || ((ISet<?>) other).size() != size()) {
             return false;
         }
-        //TODO make this work. Like it shouldn't work. What's going on?
-        return containsAll((ISet<E>) other);
+        if (this == other) {
+            return true;
+        }
+        for (E val : this) {
+            Iterator<?> otherIterator = ((ISet<?>) other).iterator();
+            boolean foundVal = false;
+            while (!foundVal && otherIterator.hasNext()) {
+                if (val.equals(otherIterator.next())) {
+                    foundVal = true;
+                }
+            }
+            if (!foundVal) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
