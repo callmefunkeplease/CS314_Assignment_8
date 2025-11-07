@@ -2,7 +2,7 @@
 /*
  * Student information for assignment:
  *
- * Number of slip days used: 0
+ * Number of slip days used: 1
  *
  *  Student 1 (Student whose Canvas account is being used)
  *  UTEID: jof369

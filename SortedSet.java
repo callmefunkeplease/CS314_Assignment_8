@@ -4,7 +4,7 @@
  *  this programming assignment is our own work
  *  and we have not provided this code to any other student.
  *
- *  Number of slip days used: 0
+ *  Number of slip days used: 1
  *
  *  Student 1 (Student whose Canvas account is being used)
  *  UTEID: jof369
