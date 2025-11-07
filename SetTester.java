@@ -25,6 +25,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.swing.JFileChooser;
+import javax.swing.UIManager;
 
 /*
  * CS 314 Students, put your results to the experiments and answers to questions
@@ -242,20 +243,20 @@ public class SetTester {
 
         // CS314 Students. Uncomment this section when ready to
         // run your experiments
-        // try {
-        // UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        // }
-        // catch(Exception e) {
-        // System.out.println("Unable to change look and feel");
-        // }
-        // Scanner sc = new Scanner(System.in);
-        // String response = "";
-        // do {
-        // largeTest();
-        // System.out.print("Another file? Enter y to do another file: ");
-        // response = sc.next();
-        // } while( response != null && response.length() > 0
-        // && response.substring(0,1).equalsIgnoreCase("y") );
+        try {
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }
+        catch(Exception e) {
+        System.out.println("Unable to change look and feel");
+        }
+        Scanner sc = new Scanner(System.in);
+        String response = "";
+        do {
+        largeTest();
+        System.out.print("Another file? Enter y to do another file: ");
+        response = sc.next();
+        } while( response != null && response.length() > 0
+        && response.substring(0,1).equalsIgnoreCase("y") );
 
         studentTests();
     }
