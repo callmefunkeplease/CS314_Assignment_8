@@ -43,19 +43,18 @@ public class SetTester {
                 // CS314 Students. Uncomment this section when ready to
                 // run your experiments
                 try {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                }
-                catch(Exception e) {
-                System.out.println("Unable to change look and feel");
+                        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                } catch (Exception e) {
+                        System.out.println("Unable to change look and feel");
                 }
                 Scanner sc = new Scanner(System.in);
                 String response = "";
                 do {
-                largeTest();
-                System.out.print("Another file? Enter y to do another file: ");
-                response = sc.next();
-                } while( response != null && response.length() > 0
-                && response.substring(0,1).equalsIgnoreCase("y") );
+                        largeTest();
+                        System.out.print("Another file? Enter y to do another file: ");
+                        response = sc.next();
+                } while (response != null && response.length() > 0
+                                && response.substring(0, 1).equalsIgnoreCase("y"));
 
                 studentTests();
         }
@@ -63,23 +62,24 @@ public class SetTester {
         public static void studentTests() {
                 // TODO add tests that check differing Object Types of E and stuff.
 
+                String testName;
                 SortedSet<Integer> ss1 = new SortedSet<>(); // ss is sorted set
                 SortedSet<Integer> ss2 = new SortedSet<>();
                 SortedSet<Integer> ss3 = new SortedSet<>();
                 UnsortedSet<Integer> us1 = new UnsortedSet<>(); // us is unsorted set
                 UnsortedSet<Integer> us2 = new UnsortedSet<>();
                 UnsortedSet<Integer> us3 = new UnsortedSet<>();
-                AbstractSet314<Integer> ms1 = new SortedSet<>(); // ms is maybe sorted set
-                AbstractSet314<Integer> ms2 = new SortedSet<>(); 
+                AbstractSet314<Integer> is1 = new SortedSet<>(); // is is interface set
+                AbstractSet314<Integer> is2 = new UnsortedSet<>();
+                ISet<Integer> i3 = new SortedSet<>();
+                ISet<Integer> i4 = new UnsortedSet<>();
 
-        }
+                for (int i = 15; i > 0; i -= 3) {
+                        ss1.add(i);
+                        ss1.add(i + 3);
+                        ss1.add(i + 2);
+                }
 
-        public static void testResults() {
-                System.out.println("Total  Tests: " + testNum);
-                System.out.println("Passed Tests: " + passedTests);
-                System.out.println("Failed Tests: " + failedTests);
-                System.out.println("Success Rate: " +
-                                (double) ((passedTests * 10000 / testNum + 5) / 10) / 10 + "%");
         }
 
         public static void quickTest(String testName, Object expected,
@@ -107,6 +107,14 @@ public class SetTester {
                         System.out.println(" ***** FAILED ***** test " + testNum + ", " + testName);
                         failedTests++;
                 }
+        }
+
+        public static void testResults() {
+                System.out.println("Total  Tests: " + testNum);
+                System.out.println("Passed Tests: " + passedTests);
+                System.out.println("Failed Tests: " + failedTests);
+                System.out.println("Success Rate: " +
+                                (double) ((passedTests * 10000 / testNum + 5) / 10) / 10 + "%");
         }
 
         // print out results of test
@@ -247,3 +255,5 @@ public class SetTester {
                 }
 
                 return text.toString();
+        }
+}
