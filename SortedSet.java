@@ -107,7 +107,7 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
             throw new IllegalArgumentException("other can't be null.");
         }
         myCon = new ArrayList<>();
-        if (other instanceof SortedSet<E>) {
+        if (other instanceof SortedSet<?>) {
             for (E val : ((SortedSet<E>) other).myCon) {
                 myCon.add(val);
             }
@@ -287,7 +287,7 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
         if (otherSet == null) {
             throw new IllegalArgumentException("otherSet can't be null.");
         }
-        if (otherSet instanceof SortedSet<E>) {
+        if (otherSet instanceof SortedSet<?>) {
             int originalSize = size();
             myCon = merge(myCon, ((SortedSet<E>) otherSet).myCon);
             return !(originalSize == size());
@@ -419,7 +419,7 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
             throw new IllegalArgumentException("otherSet can't be null.");
         }
         // O(N) if this is true
-        if (otherSet instanceof SortedSet<E>) {
+        if (otherSet instanceof SortedSet<?>) {
             int thisPos = 0;
             int otherPos = 0;
             while (otherPos < otherSet.size()) {
@@ -470,7 +470,7 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
         if (otherSet == null) {
             throw new IllegalArgumentException("otherSet can't be null.");
         }
-        if (otherSet instanceof SortedSet<E>) {
+        if (otherSet instanceof SortedSet<?>) {
             ArrayList<E> newCon = new ArrayList<>();
             ArrayList<E> otherCon = ((SortedSet<E>) otherSet).myCon;
             int thisPos = 0;
@@ -519,7 +519,7 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
             throw new IllegalArgumentException("otherSet can't be null.");
         }
         ArrayList<E> newCon = new ArrayList<>();
-        if (otherSet instanceof SortedSet<E>) {
+        if (otherSet instanceof SortedSet<?>) {
             ArrayList<E> otherCon = ((SortedSet) otherSet).myCon;
             int thisPos = 0;
             int otherPos = 0;
@@ -599,7 +599,7 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
         if (myCon.size() == 0) {
             throw new IllegalArgumentException("size()!=0");
         }
-        return myCon.getLast();
+        return myCon.get(myCon.size()-1);
     }
 
     /**

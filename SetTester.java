@@ -564,6 +564,14 @@ public class SetTester {
                 quickTest(false, s1.remove(2));
                 quickTest(e1, s1);
 
+                testName="max";
+                quickTest(12, s1.max());
+                quickTest(11, s2.max());
+
+                testName="min";
+                quickTest(-3, s1.min());
+                quickTest(-9, s2.min());
+
                 UnsortedSet<String> stringSet=new UnsortedSet<>();
                 stringSet.add("-3");
                 stringSet.add("5");
