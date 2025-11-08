@@ -566,6 +566,22 @@ public class SetTester {
                 quickTest(false, s1.remove(2));
                 quickTest(e1, s1);
 
+                UnsortedSet<String> stringSet=new UnsortedSet<>();
+                stringSet.add("-3");
+                stringSet.add("5");
+                stringSet.add("3");
+                stringSet.add("12");
+                stringSet.add("6");
+                stringSet.add("0");
+                stringSet.add("-1");
+                stringSet.add("8");
+                SortedSet<String> strSorted=new SortedSet<>(stringSet);
+                testName="Equals, different generic types";
+                quickTest(false, s1.equals(stringSet));
+                quickTest(false, u1.equals(stringSet));
+                quickTest(false, s1.equals(strSorted));
+                quickTest(false, u1.equals(strSorted));
+
                 testResults();
         }
 
