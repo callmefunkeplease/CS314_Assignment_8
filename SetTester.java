@@ -77,24 +77,25 @@ public class SetTester {
         static int testNum = 0;
         static int passedTests = 0;
         static int failedTests = 0;
+        static String testName;
 
         public static void main(String[] args) {
 
                 // CS314 Students. Uncomment this section when ready to
                 // run your experiments
-                try {
-                        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                } catch (Exception e) {
-                        System.out.println("Unable to change look and feel");
-                }
-                Scanner sc = new Scanner(System.in);
-                String response = "";
-                do {
-                        largeTest();
-                        System.out.print("Another file? Enter y to do another file: ");
-                        response = sc.next();
-                } while (response != null && response.length() > 0
-                                && response.substring(0, 1).equalsIgnoreCase("y"));
+                // try {
+                // UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                // } catch (Exception e) {
+                // System.out.println("Unable to change look and feel");
+                // }
+                // Scanner sc = new Scanner(System.in);
+                // String response = "";
+                // do {
+                // largeTest();
+                // System.out.print("Another file? Enter y to do another file: ");
+                // response = sc.next();
+                // } while (response != null && response.length() > 0
+                // && response.substring(0, 1).equalsIgnoreCase("y"));
 
                 studentTests();
         }
@@ -102,7 +103,6 @@ public class SetTester {
         public static void studentTests() {
                 // TODO add tests that check differing Object Types of E and stuff.
 
-                String testName;
                 SortedSet<Integer> ss1 = new SortedSet<>(); // ss is sorted set
                 SortedSet<Integer> ss2 = new SortedSet<>();
                 SortedSet<Integer> ss3 = new SortedSet<>();
@@ -114,29 +114,94 @@ public class SetTester {
                 ISet<Integer> i3 = new SortedSet<>();
                 ISet<Integer> i4 = new UnsortedSet<>();
 
-                for (int i = 15; i > 0; i -= 3) {
+                testName = "add for sortedSet";
+                for (int i = 9; i > -4; i -= 3) {
                         ss1.add(i);
                         ss1.add(i + 3);
                         ss1.add(i + 2);
                 }
+                quickTest("(-3, -1, 0, 2, 3, 5, 6, 8, 9, 11, 12)", ss1.toString());
 
+                ss2.add(10);
+                ss2.add(10);
+                ss2.add(1);
+                ss2.add(1);
+                ss2.add(10);
+                ss2.add(1);
+                ss2.add(-9);
+                ss2.add(10);
+                quickTest("(-9, 1, 10)", ss2);
+
+                testName = "add for UnsortedSet";
+                for (int i = 9; i > -4; i -= 3) {
+                        us1.add(i);
+                        us1.add(i + 3);
+                        us1.add(i + 2);
+                }
+                quickTest("(9, 12, 11, 6, 8, 3, 5, 0, 2, -3, -1)", us1.toString());
+
+                us2.add(10);
+                us2.add(10);
+                us2.add(1);
+                us2.add(1);
+                us2.add(10);
+                us2.add(1);
+                us2.add(-9);
+                us2.add(10);
+                quickTest("(10, 1, -9)", us2);
+
+                testName = "adding null to Sorted Set explicitly";
+                testNum++;
+                System.out.print("Test " + testNum + ", " + testName + "\nexpected result: an error is thrown"
+                                + "\n  actual result: ");
+                try {
+                        ss1.add(null);
+                } catch (Exception e) {
+                        System.out.println("an error is thrown");
+                        passedTests++;
+                }
+
+                testName = "adding null to Unsorted Set explicitly";
+                testNum++;
+                System.out.print("Test " + testNum + ", " + testName + "\nexpected result: an error is thrown"
+                                + "\n  actual result: ");
+                try {
+                        us1.add(null);
+                } catch (Exception e) {
+                        System.out.println("an error is thrown");
+                        passedTests++;
+                }
+
+                testName="SortedSet constructor, constructing w/ another set"; 
+                ss3=new SortedSet<>(us1);
+                quickTest(ss1.toString(), ss3);
+                ss3=new SortedSet<>(ss2);
+                quickTest(ss2.toString(), ss3);
+
+
+                testResults();
         }
 
-        public static void quickTest(String testName, Object expected,
-                        Object actual) {
+        public static void quickTest(Object expected, Object actual) {
                 testNum++;
                 System.out.println("Test " + testNum + ", " + testName + "\nexpected value: "
                                 + expected + "\n  actual value: " + actual);
                 if (expected.equals(actual)) {
-                        System.out.println("passed test " + testNum + ", " + testName);
+                        System.out.println("passed Test " + testNum + ", " + testName);
                         passedTests++;
                 } else {
-                        System.out.println(" ***** FAILED ***** test " + testNum + ", " + testName);
-                        failedTests++;
+                        // If i don't want to write .toString in the expected value, I don't have to.
+                        if (expected instanceof String && expected.equals(actual.toString())) {
+                                System.out.println("passed Test " + testNum + ", " + testName);
+                                passedTests++;
+                        } else {
+                                System.out.println(" ***** FAILED ***** Test " + testNum + ", " + testName);
+                                failedTests++;
+                        }
                 }
         }
 
-        public static void quickTestNullExpected(String testName, Object actual) {
+        public static void quickTestNullExpected(Object actual) {
                 testNum++;
                 System.out.println("Test " + testNum + ", " + testName + "\nexpected value: "
                                 + "null" + "\n  actual value: " + actual);

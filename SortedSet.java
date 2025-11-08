@@ -134,8 +134,9 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
      */
     private void quickSort(int low, int high) {
         // Base case where virtual list is empty or has one element
-        if (high - low < SIZE_WHEN_INSERTION_SORT_IS_FASTER_THAN_QUICK_SORT) {
+        if (high - low <= SIZE_WHEN_INSERTION_SORT_IS_FASTER_THAN_QUICK_SORT) {
             insertionSort(low, high);
+            return;
         }
         int pivotPoint = medianOfThree(low, low + (high - low) / 2, high);
         E pivotVal = myCon.get(pivotPoint);
@@ -151,8 +152,8 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
             }
             // The left pos is now 100% at something that should be on the right side
 
-            while (myCon.get(rightPoint).compareTo(pivotVal) < 0) {
-                rightPoint++;
+            while (myCon.get(rightPoint).compareTo(pivotVal) >= 0) {
+                rightPoint--;
             }
             // The right pos is now 100% at something that should be on the left side
         }
@@ -237,10 +238,11 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
         while (unsortedPos <= maxIndex) {
             int comparePos = unsortedPos - 1;
             curVal = myCon.get(unsortedPos);
-            while (curVal.compareTo(myCon.get(comparePos)) < 0 && comparePos >= minIndex) {
+            while (comparePos >= minIndex && curVal.compareTo(myCon.get(comparePos)) < 0) {
                 myCon.set(comparePos + 1, myCon.get(comparePos--));
             }
             myCon.set(comparePos + 1, curVal);
+            unsortedPos++;
         }
     }
 

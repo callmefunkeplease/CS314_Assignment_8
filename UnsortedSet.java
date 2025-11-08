@@ -4,7 +4,7 @@
  *  this programming assignment is our own work
  *  and we have not provided this code to any other student.
  *
- *  Number of slip days used: 1
+ *  Number of slip days used: 0
  *
  *  Student 1 (Student whose Canvas account is being used)
  *  UTEID: jof369
@@ -73,7 +73,6 @@ public class UnsortedSet<E> extends AbstractSet314<E> {
 			return false;
 		}
 		myCon.add(item);
-		// TODO Note: I removed the internal size tracker because myCon has a size
 		return true;
 	}
 
@@ -92,7 +91,6 @@ public class UnsortedSet<E> extends AbstractSet314<E> {
 		if (item == null) {
 			throw new IllegalArgumentException("item cannot be null.");
 		}
-		// TODO Note: I condensed this code
 		return myCon.remove(item);
 	}
 
