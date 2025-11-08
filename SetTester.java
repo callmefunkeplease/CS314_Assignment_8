@@ -101,8 +101,6 @@ public class SetTester {
         }
 
         public static void studentTests() {
-                // TODO add tests that check differing Object Types of E and stuff.
-
                 SortedSet<Integer> s1 = new SortedSet<>(); // s is for sorted set
                 SortedSet<Integer> s2 = new SortedSet<>();
                 SortedSet<Integer> s3 = new SortedSet<>();
