@@ -14,7 +14,7 @@
  *  email address: psp782@my.utexas.edu
  */
 
- /* 
+/* 
 
 Unsorted Set
 File          Size (kb)   Total Words   Increase from Previous Row   Unique Words   Inc. Prev. Row   Actual Time   Inc. Prev. Row
@@ -48,7 +48,7 @@ What do you think the order (Big O) of the two processText methods are for each 
 - O(N)
 
 What are the orders (Big O) of your add methods? What do you think the Big O of the HashSet and TreeSet add methods are?
-- 
+- Our add methods are both O(N). Hashset is probably O(1) and treeset is probably O(log(N))
 
 What are the differences between HashSet and TreeSet when printing out the contents of the Set?
 - The difference is that there is no real order when the HashSet prints whereas the TreeSet prints out in lexographic order.
@@ -489,14 +489,82 @@ public class SetTester {
                 quickTest(3, s2.size());
                 quickTest(0, u3.size());
                 quickTest(0, s3.size());
-                // TODO
+                quickTest(101, iu.size());
+                quickTest(101, is.size());
+                quickTest(101, au.size());
+                quickTest(101, as.size());
 
+                e1.addAll(u1);
+                e1.addAll(u2);
+                testName = "union, Unsorted.union(unsorted)";
+                quickTest(e1, u1.union(u2));
+                quickTest(e1, u2.union(u1));
+                quickTest(u1, u1.union(u1));
+                quickTest(s2, u2.union(u2));
+                quickTest(u1, u1.union(u3));
+                quickTest(s2, u2.union(u3));
+                quickTest(u1, u3.union(u1));
+                quickTest(s2, u3.union(u2));
+                quickTest(iu, u1.union(iu));
+                quickTest(iu, iu.union(iu));
+                quickTest(iu, iu.union(u2));
+
+                testName = "union, Unsorted.union(sorted)";
+                quickTest(e1, u1.union(s2));
+                quickTest(e1, u2.union(s1));
+                quickTest(u1, u1.union(s1));
+                quickTest(s2, u2.union(s2));
+                quickTest(u1, u1.union(s3));
+                quickTest(s2, u2.union(s3));
+                quickTest(u1, u3.union(s1));
+                quickTest(s2, u3.union(s2));
+                quickTest(iu, u1.union(is));
+                quickTest(iu, iu.union(is));
+                quickTest(iu, iu.union(s2));
+
+                testName = "union, sorted.union(unsorted)";
+                quickTest(e1, s1.union(u2));
+                quickTest(e1, s2.union(u1));
+                quickTest(u1, s1.union(u1));
+                quickTest(s2, s2.union(u2));
+                quickTest(u1, s1.union(u3));
+                quickTest(s2, s2.union(u3));
+                quickTest(u1, s3.union(u1));
+                quickTest(s2, s3.union(u2));
+                quickTest(iu, s1.union(iu));
+                quickTest(iu, is.union(iu));
+                quickTest(iu, is.union(u2));
+
+                testName = "union, sorted.union(sorted)";
+                quickTest(e1, s1.union(s2));
+                quickTest(e1, s2.union(s1));
+                quickTest(u1, s1.union(s1));
+                quickTest(s2, s2.union(s2));
+                quickTest(u1, s1.union(s3));
+                quickTest(s2, s2.union(s3));
+                quickTest(u1, s3.union(s1));
+                quickTest(s2, s3.union(s2));
+                quickTest(iu, s1.union(is));
+                quickTest(iu, is.union(is));
+                quickTest(iu, is.union(s2));
+
+                e1 = new SortedSet<>(s1);
+                e1.remove(11);
+                e1.remove(9);
+                e1.remove(2);
                 testName = "remove, unsortedSet";
-                quickTest("(-3, -1, 0, 2, 3, 5, 6, 8, 9, 11, 12)", s1.toString());
                 quickTest(true, u1.remove(11));
                 quickTest(true, u1.remove(9));
                 quickTest(true, u1.remove(2));
                 quickTest(false, u1.remove(2));
+                quickTest(e1, u1);
+
+                testName = "remove, sortedSet";
+                quickTest(true, s1.remove(11));
+                quickTest(true, s1.remove(9));
+                quickTest(true, s1.remove(2));
+                quickTest(false, s1.remove(2));
+                quickTest(e1, s1);
 
                 testResults();
         }
