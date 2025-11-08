@@ -63,59 +63,59 @@ public class SetTester {
         public static void studentTests() {
                 // TODO add tests that check differing Object Types of E and stuff.
 
-                SortedSet<Integer> ss1 = new SortedSet<>(); // ss is sorted set
-                SortedSet<Integer> ss2 = new SortedSet<>();
-                SortedSet<Integer> ss3 = new SortedSet<>();
-                UnsortedSet<Integer> us1 = new UnsortedSet<>(); // us is unsorted set
-                UnsortedSet<Integer> us2 = new UnsortedSet<>();
-                UnsortedSet<Integer> us3 = new UnsortedSet<>();
-                AbstractSet314<Integer> is1 = new SortedSet<>(); // is is interface set
-                AbstractSet314<Integer> is2 = new UnsortedSet<>();
-                ISet<Integer> i3 = new SortedSet<>();
-                ISet<Integer> i4 = new UnsortedSet<>();
+                SortedSet<Integer> s1 = new SortedSet<>(); // s is for sorted set
+                SortedSet<Integer> s2 = new SortedSet<>();
+                SortedSet<Integer> s3 = new SortedSet<>();
+                UnsortedSet<Integer> u1 = new UnsortedSet<>(); // u is for unsorted set
+                UnsortedSet<Integer> u2 = new UnsortedSet<>();
+                UnsortedSet<Integer> u3 = new UnsortedSet<>();
+                AbstractSet314<Integer> as = new SortedSet<>(); // as is for sorted abstract set
+                AbstractSet314<Integer> au = new UnsortedSet<>(); // au is for unsorted abstract set
+                ISet<Integer> is = new SortedSet<>(); // is is for Sorted ISet
+                ISet<Integer> iu = new UnsortedSet<>(); // iu is for Unsorted ISet
 
                 testName = "add for sortedSet";
                 for (int i = 9; i > -4; i -= 3) {
-                        ss1.add(i);
-                        ss1.add(i + 3);
-                        ss1.add(i + 2);
+                        s1.add(i);
+                        s1.add(i + 3);
+                        s1.add(i + 2);
                 }
-                quickTest("(-3, -1, 0, 2, 3, 5, 6, 8, 9, 11, 12)", ss1.toString());
+                quickTest("(-3, -1, 0, 2, 3, 5, 6, 8, 9, 11, 12)", s1.toString());
 
-                ss2.add(10);
-                ss2.add(10);
-                ss2.add(1);
-                ss2.add(1);
-                ss2.add(10);
-                ss2.add(1);
-                ss2.add(-9);
-                ss2.add(10);
-                quickTest("(-9, 1, 10)", ss2);
+                quickTest(true, s2.add(11));
+                quickTest(false, s2.add(11));
+                quickTest(true, s2.add(1));
+                s2.add(1);
+                s2.add(11);
+                quickTest(false, s2.add(1));
+                quickTest(true, s2.add(-9));
+                s2.add(11);
+                quickTest("(-9, 1, 11)", s2);
 
                 testName = "add for UnsortedSet";
                 for (int i = 9; i > -4; i -= 3) {
-                        us1.add(i);
-                        us1.add(i + 3);
-                        us1.add(i + 2);
+                        u1.add(i);
+                        u1.add(i + 3);
+                        u1.add(i + 2);
                 }
-                quickTest("(9, 12, 11, 6, 8, 3, 5, 0, 2, -3, -1)", us1.toString());
+                quickTest("(9, 12, 11, 6, 8, 3, 5, 0, 2, -3, -1)", u1.toString());
 
-                us2.add(10);
-                us2.add(10);
-                us2.add(1);
-                us2.add(1);
-                us2.add(10);
-                us2.add(1);
-                us2.add(-9);
-                us2.add(10);
-                quickTest("(10, 1, -9)", us2);
+                quickTest(true, u2.add(11));
+                quickTest(false, u2.add(11));
+                quickTest(true, u2.add(1));
+                u2.add(1);
+                u2.add(11);
+                quickTest(false, u2.add(1));
+                quickTest(true, u2.add(-9));
+                u2.add(11);
+                quickTest("(11, 1, -9)", u2);
 
                 testName = "adding null to Sorted Set explicitly";
                 testNum++;
                 System.out.print("Test " + testNum + ", " + testName + "\nexpected result: an error is thrown"
                                 + "\n  actual result: ");
                 try {
-                        ss1.add(null);
+                        s1.add(null);
                 } catch (Exception e) {
                         System.out.println("an error is thrown");
                         passedTests++;
@@ -126,18 +126,337 @@ public class SetTester {
                 System.out.print("Test " + testNum + ", " + testName + "\nexpected result: an error is thrown"
                                 + "\n  actual result: ");
                 try {
-                        us1.add(null);
+                        u1.add(null);
                 } catch (Exception e) {
                         System.out.println("an error is thrown");
                         passedTests++;
                 }
 
-                testName="SortedSet constructor, constructing w/ another set"; 
-                ss3=new SortedSet<>(us1);
-                quickTest(ss1.toString(), ss3);
-                ss3=new SortedSet<>(ss2);
-                quickTest(ss2.toString(), ss3);
+                testName = "SortedSet constructor, constructing w/ another set";
+                s3 = new SortedSet<>(u1);
+                quickTest(s1.toString(), s3);
+                s3 = new SortedSet<>(s2);
+                quickTest(s2.toString(), s3);
 
+                // making the unknown* sets real bigish
+                String expectedSort = "(";
+                String expectedUnsort = "(";
+                for (int i = 50; i > -50; i--) {
+                        as.add(i);
+                        au.add(i);
+                        is.add(i);
+                        iu.add(i);
+                        expectedUnsort = expectedUnsort.concat(i + ", ");
+                        expectedSort = expectedSort.concat((-1 * i) + ", ");
+                }
+                expectedUnsort = expectedUnsort.concat("-50)");
+                expectedSort = expectedSort.concat("50)");
+                as.add(-50);
+                au.add(-50);
+                is.add(-50);
+                iu.add(-50);
+
+                testName = "adding to an abstract set";
+                quickTestBigStrings(expectedSort, as);
+                quickTestBigStrings(expectedUnsort, au);
+                testName = "adding to an Iset";
+                quickTestBigStrings(expectedSort, is);
+                quickTestBigStrings(expectedUnsort, iu);
+
+                testName = "sorted set constructor with an abstractSet or Iset";
+                quickTestBigStrings(expectedSort, new SortedSet<>(au));
+                quickTestBigStrings(expectedSort, new SortedSet<>(iu));
+
+                testName = "addAll, adding unsorted set to empty unsorted set";
+                quickTest(true, u3.addAll(u1));
+                quickTest("(9, 12, 11, 6, 8, 3, 5, 0, 2, -3, -1)", u3);
+
+                testName = "addAll, adding unsorted set to unsorted set";
+                quickTest(true, u3.addAll(u2));
+                quickTest("(9, 12, 11, 6, 8, 3, 5, 0, 2, -3, -1, 1, -9)", u3);
+
+                testName = "addAll, adding present unsorted set to unsorted set";
+                quickTest(false, u3.addAll(u2));
+                quickTest("(9, 12, 11, 6, 8, 3, 5, 0, 2, -3, -1, 1, -9)", u3);
+
+                testName = "clear for an unsortedSet";
+                u3.clear();
+                quickTest("()", u3);
+
+                testName = "addAll, adding sorted set to empty unsorted set";
+                quickTest(true, u3.addAll(s1));
+                quickTest("(-3, -1, 0, 2, 3, 5, 6, 8, 9, 11, 12)", u3);
+
+                testName = "addAll, adding sorted set to unsorted set";
+                quickTest(true, u3.addAll(s2));
+                quickTest("(-3, -1, 0, 2, 3, 5, 6, 8, 9, 11, 12, -9, 1)", u3);
+
+                testName = "addAll, adding present sorted set to unsorted set";
+                quickTest(false, u3.addAll(s2));
+                quickTest("(-3, -1, 0, 2, 3, 5, 6, 8, 9, 11, 12, -9, 1)", u3);
+
+                testName = "clear for an unsortedSet";
+                u3.clear();
+                quickTest("()", u3);
+
+                testName = "clear for a sortedSet";
+                s3.clear();
+                quickTest("()", s3);
+
+                testName = "addAll, adding unsorted set to empty sorted set";
+                quickTest(true, s3.addAll(u1));
+                quickTest("(-3, -1, 0, 2, 3, 5, 6, 8, 9, 11, 12)", s3);
+
+                testName = "addAll, adding unsorted set to sorted set";
+                quickTest(true, s3.addAll(u2));
+                quickTest("(-9, -3, -1, 0, 1, 2, 3, 5, 6, 8, 9, 11, 12)", s3);
+
+                testName = "addAll, adding present unsorted set to sorted set";
+                quickTest(false, s3.addAll(u1));
+                quickTest("(-9, -3, -1, 0, 1, 2, 3, 5, 6, 8, 9, 11, 12)", s3);
+
+                testName = "clear for a sortedSet";
+                s3.clear();
+                quickTest("()", s3);
+
+                testName = "addAll, adding sorted set to empty sorted set";
+                quickTest(true, s3.addAll(s1));
+                quickTest("(-3, -1, 0, 2, 3, 5, 6, 8, 9, 11, 12)", s3);
+
+                testName = "addAll, adding sorted set to sorted set";
+                quickTest(true, s3.addAll(s2));
+                quickTest("(-9, -3, -1, 0, 1, 2, 3, 5, 6, 8, 9, 11, 12)", s3);
+
+                testName = "addAll, adding present sorted set to sorted set";
+                quickTest(false, s3.addAll(s1));
+                quickTest("(-9, -3, -1, 0, 1, 2, 3, 5, 6, 8, 9, 11, 12)", s3);
+
+                testName = "clear for a sortedSet";
+                s3.clear();
+                quickTest("()", s3);
+
+                testName = "UnsortedSet contains";
+                quickTest(false, u1.contains(1));
+                quickTest(true, u1.contains(-1));
+                quickTest(false, u3.contains(1));
+
+                testName = "SortedSet contains";
+                quickTest(false, s1.contains(1));
+                quickTest(true, s1.contains(-1));
+                quickTest(false, s3.contains(1));
+
+                testName = "ContainsAll, unsorted contains all unsorted";
+                quickTest(false, u1.containsAll(u2));
+                quickTest(false, u2.containsAll(u1));
+                quickTest(true, u1.containsAll(u1));
+                quickTest(true, u1.containsAll(u3));
+                quickTest(true, iu.containsAll(u1));
+                quickTest(true, au.containsAll(u1));
+                quickTest(true, iu.containsAll(au));
+
+                testName = "ContainsAll, unsorted contains all sorted";
+                quickTest(false, u1.containsAll(s2));
+                quickTest(false, u2.containsAll(s1));
+                quickTest(true, u1.containsAll(s1));
+                quickTest(true, u1.containsAll(s3));
+                quickTest(true, iu.containsAll(s1));
+                quickTest(true, au.containsAll(s1));
+                quickTest(true, iu.containsAll(as));
+
+                testName = "ContainsAll, sorted contains all unsorted";
+                quickTest(false, s1.containsAll(u2));
+                quickTest(false, s2.containsAll(u1));
+                quickTest(true, s1.containsAll(u1));
+                quickTest(true, s1.containsAll(u3));
+                quickTest(true, is.containsAll(u1));
+                quickTest(true, as.containsAll(u1));
+                quickTest(true, is.containsAll(au));
+
+                testName = "ContainsAll, sorted contains all sorted";
+                quickTest(false, s1.containsAll(s2));
+                quickTest(false, s2.containsAll(s1));
+                quickTest(true, s1.containsAll(s1));
+                quickTest(true, s1.containsAll(s3));
+                quickTest(true, is.containsAll(s1));
+                quickTest(true, as.containsAll(s1));
+                quickTest(true, is.containsAll(as));
+
+                testName = "Difference, unsorted.difference(unsorted)";
+                quickTest("()", u3.difference(u1));
+                quickTest("()", u3.difference(au));
+                quickTest("()", u1.difference(u1));
+                SortedSet e1 = new SortedSet<>(s1);
+                e1.remove(11);
+                quickTest(e1, u1.difference(u2));
+                SortedSet e2 = new SortedSet<>(u2);
+                e2.remove(11);
+                quickTest(e2, u2.difference(u1));
+
+                testName = "Difference, unsorted.difference(sorted)";
+                quickTest("()", u3.difference(s1));
+                quickTest("()", u3.difference(as));
+                quickTest("()", u1.difference(s1));
+                quickTest(e1, s1.difference(u2));
+                quickTest(e2, u2.difference(s1));
+
+                testName = "Difference, sorted.difference(unsorted)";
+                quickTest("()", s3.difference(u1));
+                quickTest("()", s3.difference(au));
+                quickTest("()", s1.difference(u1));
+                quickTest(e1, s1.difference(u2));
+                quickTest(e2, s2.difference(u1));
+
+                testName = "Difference, sorted.difference(sorted)";
+                quickTest("()", s3.difference(s1));
+                quickTest("()", s3.difference(as));
+                quickTest("()", s1.difference(s1));
+                quickTest(e1, s1.difference(s2));
+                quickTest(e2, s2.difference(s1));
+
+                testName = "Equals, unsorted.equals(unsorted)";
+                quickTest(false, u3.equals(u1));
+                quickTest(false, u1.equals(u3));
+                quickTest(false, u1.equals(u2));
+                quickTest(false, u1.equals(iu));
+                quickTest(true, au.equals(iu));
+                quickTest(true, iu.equals(au));
+                quickTest(true, u3.equals(u3));
+                quickTest(true, u1.equals(u1));
+
+                testName = "Equals, unsorted.equals(sorted)";
+                quickTest(false, u3.equals(s1));
+                quickTest(false, u1.equals(s3));
+                quickTest(false, u1.equals(s2));
+                quickTest(false, u1.equals(is));
+                quickTest(true, u1.equals(s1));
+                quickTest(true, au.equals(is));
+                quickTest(true, iu.equals(as));
+                quickTest(true, u3.equals(s3));
+                quickTest(true, u1.equals(s1));
+
+                testName = "Equals, sorted.equals(unsorted)";
+                quickTest(false, s3.equals(u1));
+                quickTest(false, s1.equals(u3));
+                quickTest(false, s1.equals(u2));
+                quickTest(false, s1.equals(iu));
+                quickTest(true, as.equals(iu));
+                quickTest(true, is.equals(au));
+                quickTest(true, s3.equals(u3));
+                quickTest(true, s1.equals(u1));
+
+                SortedSet s4 = new SortedSet<>(s1);
+                testName = "Equals, sorted.equals(sorted)";
+                quickTest(false, s3.equals(s1));
+                quickTest(false, s1.equals(s3));
+                quickTest(false, s1.equals(s2));
+                quickTest(false, s1.equals(is));
+                quickTest(true, s1.equals(s4));
+                quickTest(true, as.equals(is));
+                quickTest(true, is.equals(as));
+                quickTest(true, s3.equals(s3));
+                quickTest(true, s1.equals(s1));
+
+                e1 = new SortedSet<>();
+                e1.add(11);
+                testName = "Intersection, unsorted.intersection(unsorted)";
+                quickTest("()", u3.intersection(u1));
+                quickTest("()", u1.intersection(u3));
+                quickTest("()", u3.intersection(u3));
+                quickTest(s1, u1.intersection(u1));
+                quickTest(s1, u1.intersection(au));
+                quickTest(s1, iu.intersection(u1));
+                quickTest(s2, iu.intersection(u2));
+                quickTest(e1, u1.intersection(u2));
+                quickTest(e1, u2.intersection(u1));
+                quickTestBigStrings(au, iu.intersection(au));
+
+                testName = "Intersection, unsorted.intersection(sorted)";
+                quickTest("()", u3.intersection(s1));
+                quickTest("()", u1.intersection(s3));
+                quickTest("()", u3.intersection(s3));
+                quickTest(s1, u1.intersection(s1));
+                quickTest(s1, u1.intersection(as));
+                quickTest(s1, iu.intersection(s1));
+                quickTest(s2, iu.intersection(s2));
+                quickTest(e1, u1.intersection(s2));
+                quickTest(e1, u2.intersection(s1));
+                quickTestBigStrings(au, iu.intersection(as));
+
+                testName = "Intersection, sorted.intersection(unsorted)";
+                quickTest("()", s3.intersection(u1));
+                quickTest("()", s1.intersection(u3));
+                quickTest("()", s3.intersection(u3));
+                quickTest(u1, s1.intersection(u1));
+                quickTest(u1, s1.intersection(au));
+                quickTest(u1, is.intersection(u1));
+                quickTest(s2, is.intersection(u2));
+                quickTest(e1, s1.intersection(u2));
+                quickTest(e1, s2.intersection(u1));
+                quickTestBigStrings(au, is.intersection(au));
+
+                testName = "Intersection, sorted.intersection(sorted)";
+                quickTest("()", s3.intersection(s1));
+                quickTest("()", s1.intersection(s3));
+                quickTest("()", s3.intersection(s3));
+                quickTest(u1, s1.intersection(s1));
+                quickTest(u1, s1.intersection(as));
+                quickTest(u1, is.intersection(s1));
+                quickTest(s2, is.intersection(s2));
+                quickTest(e1, s1.intersection(s2));
+                quickTest(e1, s2.intersection(s1));
+                quickTestBigStrings(au, is.intersection(as));
+
+                testName = "Iterator test I guess";
+                Iterator it = s1.iterator();
+                int counts = 0;
+                while (it.hasNext()) {
+                        quickTest(true, s1.contains((Integer) it.next()));
+                        counts++;
+                }
+                quickTest(s1.size(), counts);
+
+                it = u1.iterator();
+                counts = 0;
+                while (it.hasNext()) {
+                        quickTest(true, s1.contains((Integer) it.next()));
+                        counts++;
+                }
+                quickTest(s1.size(), counts);
+
+                it = s3.iterator();
+                counts = 0;
+                while (it.hasNext()) {
+                        quickTest(true, s1.contains((Integer) it.next()));
+                        counts++;
+                }
+                quickTest(s3.size(), counts);
+
+                it = u3.iterator();
+                counts = 0;
+                while (it.hasNext()) {
+                        quickTest(true, s1.contains((Integer) it.next()));
+                        counts++;
+                }
+                quickTest(s3.size(), counts);
+
+                it = iu.iterator();
+                quickTest(true, it.hasNext());
+
+                testName = "size";
+                quickTest(11, u1.size());
+                quickTest(11, s1.size());
+                quickTest(3, u2.size());
+                quickTest(3, s2.size());
+                quickTest(0, u3.size());
+                quickTest(0, s3.size());
+                // TODO
+
+                testName = "remove, unsortedSet";
+                quickTest("(-3, -1, 0, 2, 3, 5, 6, 8, 9, 11, 12)", s1.toString());
+                quickTest(true, u1.remove(11));
+                quickTest(true, u1.remove(9));
+                quickTest(true, u1.remove(2));
+                quickTest(false, u1.remove(2));
 
                 testResults();
         }
@@ -161,6 +480,25 @@ public class SetTester {
                 }
         }
 
+        public static void quickTestBigStrings(Object expected, Object actual) {
+                testNum++;
+                if (expected.equals(actual)) {
+                        System.out.println("passed Test " + testNum + ", " + testName);
+                        passedTests++;
+                } else {
+                        // If i don't want to write .toString in the expected value, I don't have to.
+                        if (expected instanceof String && expected.equals(actual.toString())) {
+                                System.out.println("passed Test " + testNum + ", " + testName);
+                                passedTests++;
+                        } else {
+                                System.out.println("Test " + testNum + ", " + testName + "\nexpected value: "
+                                                + expected + "\n  actual value: " + actual);
+                                System.out.println(" ***** FAILED ***** Test " + testNum + ", " + testName);
+                                failedTests++;
+                        }
+                }
+        }
+
         public static void quickTestNullExpected(Object actual) {
                 testNum++;
                 System.out.println("Test " + testNum + ", " + testName + "\nexpected value: "
@@ -175,11 +513,18 @@ public class SetTester {
         }
 
         public static void testResults() {
+                System.out.println();
+                System.out.println();
                 System.out.println("Total  Tests: " + testNum);
                 System.out.println("Passed Tests: " + passedTests);
                 System.out.println("Failed Tests: " + failedTests);
+                if (failedTests > 0) {
+                        System.out.println("    YO EVERYBODY LOOK OVER HERE. THIS BUCKO FAILED A TEST. \n"
+                                        + "THEY AINT PERFECT. LETS ALL GATHER IN A CIRCLE AND LAUGH AT THEM");
+                }
                 System.out.println("Success Rate: " +
                                 (double) ((passedTests * 10000 / testNum + 5) / 10) / 10 + "%");
+                System.out.println();
         }
 
         // print out results of test

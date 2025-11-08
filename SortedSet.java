@@ -116,7 +116,7 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
                 myCon.add(val);
             }
             if (myCon.size() > 1) {
-                quickSort(0, myCon.size() - 1);
+                quickSort(0, myCon.size() - 1, myCon);
             } // else{ I'm good. The empty/single val is sorted }
         }
     }
@@ -125,41 +125,42 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
      * Note to Karnika, we chose to use QuickSort over mergeSort because we already
      * know how to do mergeSort. We want to learn quickSort better
      * 
-     * pre: myCon!=null
-     * post: sorts myCon between indexes low and high (inclusive)
+     * pre: inputCon!=null
+     * post: sorts inputCon between indexes low and high (inclusive)
      * 
-     * Note* myCon shall not be checked as checking in a recursive method would be
+     * Note* inputCon shall not be checked as checking in a recursive method would
+     * be
      * redundant and needlessly degrade efficiency and there is no way for a client
-     * to make myCon = null
+     * to make inputCon = null
      */
-    private void quickSort(int low, int high) {
+    private void quickSort(int low, int high, ArrayList<E> inputCon) {
         // Base case where virtual list is empty or has one element
         if (high - low <= SIZE_WHEN_INSERTION_SORT_IS_FASTER_THAN_QUICK_SORT) {
-            insertionSort(low, high);
+            insertionSort(low, high, inputCon);
             return;
         }
-        int pivotPoint = medianOfThree(low, low + (high - low) / 2, high);
-        E pivotVal = myCon.get(pivotPoint);
-        swap(low, pivotPoint);
+        int pivotPoint = medianOfThree(low, low + (high - low) / 2, high, inputCon);
+        E pivotVal = inputCon.get(pivotPoint);
+        swap(low, pivotPoint, inputCon);
         int leftPoint = low + 1;
         int rightPoint = high;
         while (leftPoint <= rightPoint) {
             // swaps first because previous loop
-            swap(leftPoint, rightPoint);
+            swap(leftPoint, rightPoint, inputCon);
 
-            while (myCon.get(leftPoint).compareTo(pivotVal) < 0) {
+            while (inputCon.get(leftPoint).compareTo(pivotVal) < 0) {
                 leftPoint++;
             }
             // The left pos is now 100% at something that should be on the right side
 
-            while (myCon.get(rightPoint).compareTo(pivotVal) >= 0) {
+            while (inputCon.get(rightPoint).compareTo(pivotVal) >= 0) {
                 rightPoint--;
             }
             // The right pos is now 100% at something that should be on the left side
         }
-        swap(low, rightPoint);
-        quickSort(low, rightPoint - 1);
-        quickSort(rightPoint + 1, high);
+        swap(low, rightPoint, inputCon);
+        quickSort(low, rightPoint - 1, inputCon);
+        quickSort(rightPoint + 1, high, inputCon);
     }
 
     /*
@@ -169,18 +170,18 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
      * post: nothing is mutated
      * return: the index of the median from indexes x, y, and z
      */
-    private int medianOfThree(int x, int y, int z) {
+    private int medianOfThree(int x, int y, int z, ArrayList<E> inputCon) {
         // I need to return the number that wins once, loses once
-        E xVal = myCon.get(x);
-        E yVal = myCon.get(y);
-        E zVal = myCon.get(z);
-        int winner = max(x, y);
-        if (max(winner, z) != winner) {
+        E xVal = inputCon.get(x);
+        E yVal = inputCon.get(y);
+        E zVal = inputCon.get(z);
+        int winner = max(x, y, inputCon);
+        if (max(winner, z, inputCon) != winner) {
             // the original winner lost :)
             return winner;
         } else {
             // both these numbers have lost once
-            return max(min(x, y), z);
+            return max(min(x, y, inputCon), z, inputCon);
         }
     }
 
@@ -192,8 +193,8 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
      * post: nothing is mutated
      * return: the index of the greater value
      */
-    private int max(int x, int y) {
-        return myCon.get(x).compareTo(myCon.get(y)) < 0 ? y : x;
+    private int max(int x, int y, ArrayList<E> inputCon) {
+        return inputCon.get(x).compareTo(inputCon.get(y)) < 0 ? y : x;
     }
 
     /*
@@ -204,44 +205,45 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
      * post: nothing is mutated
      * return: the index of the lesser value
      */
-    private int min(int x, int y) {
-        return myCon.get(x).compareTo(myCon.get(y)) >= 0 ? y : x;
+    private int min(int x, int y, ArrayList<E> inputCon) {
+        return inputCon.get(x).compareTo(inputCon.get(y)) >= 0 ? y : x;
     }
 
     /*
-     * Swaps 2 indexes of myCon
+     * Swaps 2 indexes of inputCon
      * 
-     * pre: 0<=posOne<myCon.size() and 0<=posTwo<myCon.size()
-     * post: the value in myCon at index posOne is swapped with the value in myCon
+     * pre: 0<=posOne<inputCon.size() and 0<=posTwo<inputCon.size()
+     * post: the value in inputCon at index posOne is swapped with the value in
+     * inputCon
      * at index posTwo
      */
-    private void swap(int posOne, int posTwo) {
-        if (posOne < 0 || posOne >= myCon.size() || posTwo < 0 || posTwo > myCon.size()) {
+    private void swap(int posOne, int posTwo, ArrayList<E> inputCon) {
+        if (posOne < 0 || posOne >= inputCon.size() || posTwo < 0 || posTwo > inputCon.size()) {
             throw new IllegalArgumentException("posOne or posTwo are out of bounds");
         }
-        E temp = myCon.get(posTwo);
-        myCon.set(posTwo, myCon.get(posOne));
-        myCon.set(posOne, temp);
+        E temp = inputCon.get(posTwo);
+        inputCon.set(posTwo, inputCon.get(posOne));
+        inputCon.set(posOne, temp);
     }
 
     /*
      * Sorts using insertionSort
      * 
-     * pre: myCon!=null
-     * post: sorts myCon between indexes minIndex and maxIndex (inclusive)
+     * pre: inputCon!=null
+     * post: sorts inputCon between indexes minIndex and maxIndex (inclusive)
      * 
-     * Note* myCon shall not be checked as a client cannot make myCon=null
+     * Note* inputCon shall not be checked as a client cannot make inputCon=null
      */
-    public void insertionSort(int minIndex, int maxIndex) {
+    public void insertionSort(int minIndex, int maxIndex, ArrayList<E> inputCon) {
         int unsortedPos = minIndex + 1;
         E curVal;
         while (unsortedPos <= maxIndex) {
             int comparePos = unsortedPos - 1;
-            curVal = myCon.get(unsortedPos);
-            while (comparePos >= minIndex && curVal.compareTo(myCon.get(comparePos)) < 0) {
-                myCon.set(comparePos + 1, myCon.get(comparePos--));
+            curVal = inputCon.get(unsortedPos);
+            while (comparePos >= minIndex && curVal.compareTo(inputCon.get(comparePos)) < 0) {
+                inputCon.set(comparePos + 1, inputCon.get(comparePos--));
             }
-            myCon.set(comparePos + 1, curVal);
+            inputCon.set(comparePos + 1, curVal);
             unsortedPos++;
         }
     }
@@ -475,7 +477,7 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
             int otherPos = 0;
 
             // find everything in "this" that is less than the otherSet.max()
-            while (otherPos < otherSet.size()) {
+            while (otherPos < otherSet.size() && thisPos < size()) {
                 if (myCon.get(thisPos).compareTo(otherCon.get(otherPos)) < 0) {
                     newCon.add(myCon.get(thisPos));
                     thisPos++;
@@ -539,6 +541,7 @@ public class SortedSet<E extends Comparable<? super E>> extends AbstractSet314<E
                     newCon.add(val);
                 }
             }
+            quickSort(0, newCon.size() - 1, newCon);
         }
         return new SortedSet<>(newCon);
     }

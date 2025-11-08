@@ -100,7 +100,7 @@ public abstract class AbstractSet314<E> implements ISet<E> {
         for (E val : otherSet) {
             add(val);
         }
-        return originalSize == size();
+        return originalSize != size();
     }
 
     /**
