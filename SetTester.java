@@ -14,6 +14,46 @@
  *  email address: psp782@my.utexas.edu
  */
 
+ /* 
+
+Unsorted Set
+File          Size (kb)   Total Words   Increase from Previous Row   Unique Words   Inc. Prev. Row   Actual Time   Inc. Prev. Row
+HoBask.html   418         65947          -                            10173           -                0.16 sec.    -
+FStein.html   468         80517          1.2x                         12523           1.2x             0.23 sec.    1.4x
+Odyssey.html  776         138010         1.7x                         15467           1.2x             0.43 sec.    1.9x
+MobyDick.html 1500        224626         1.6x                         34086           2.2x             1.85 sec.    4.3x
+
+Sorted Set
+File          Size (kb)   Total Words   Increase from Previous Row   Unique Words   Inc. Prev. Row   Actual Time   Inc. Prev. Row
+HoBask.html   418         65947          -                            10173           -                0.06 sec.    -
+FStein.html   468         80517          1.2x                         12523           1.2x             0.04 sec.    0.67x
+Odyssey.html  776         138010         1.7x                         15467           1.2x             0.05 sec.    1.25x
+MobyDick.html 1500        224626         1.6x                         34086           2.2x             0.11 sec.    2.2x
+
+HashSet
+File          Size (kb)   Total Words   Increase from Previous Row   Unique Words   Inc. Prev. Row   Actual Time   Inc. Prev. Row
+HoBask.html   418         65947          -                            10173           -                0.02 sec.    -
+FStein.html   468         80517          1.2x                         12523           1.2x             0.02 sec.    1.0x
+Odyssey.html  776         138010         1.7x                         15467           1.2x             0.03 sec.    1.5x
+MobyDick.html 1500        224626         1.6x                         34086           2.2x             0.05 sec.    1.7x
+
+TreeSet
+File          Size (kb)   Total Words   Increase from Previous Row   Unique Words   Inc. Prev. Row   Actual Time   Inc. Prev. Row
+HoBask.html   418         65947          -                            10173           -                0.03 sec.    -
+FStein.html   468         80517          1.2x                         12523           1.2x             0.03 sec.    1.0x
+Odyssey.html  776         138010         1.7x                         15467           1.2x             0.04 sec.    1.33x
+MobyDick.html 1500        224626         1.6x                         34086           2.2x             0.06 sec.    1.5x
+
+What do you think the order (Big O) of the two processText methods are for each kind of Set? Assume N = total number of words in a file and M = number of distinct words in the file. M = the size of the set when finished.
+- O(N)
+
+What are the orders (Big O) of your add methods? What do you think the Big O of the HashSet and TreeSet add methods are?
+- 
+
+What are the differences between HashSet and TreeSet when printing out the contents of the Set?
+- The difference is that there is no real order when the HashSet prints whereas the TreeSet prints out in lexographic order.
+*/
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
